@@ -1,0 +1,634 @@
+#+TITLE: emacs-config
+#+AUTHOR: zcd
+#+PROPERTY: header-args :results silent
+
+* Base Settings
+
+** General
+
+This config file.
+
+#+begin_src emacs-lisp
+  (setq me/emacs-config-file (expand-file-name "emacs-config.org"
+                                               user-emacs-directory))
+  (setq me/emacs-config-generated-elisp (expand-file-name "emacs-config.el"
+                                                          user-emacs-directory))
+  
+  (defun me/emacs-config ()
+    (interactive)
+    (find-file me/emacs-config-file))
+  
+  (defun me/emacs-config-load ()
+    (interactive)
+    (org-babel-tangle-file me/emacs-config-file me/emacs-config-generated-elisp)
+    (load-file me/emacs-config-generated-elisp))
+#+end_src
+
+Other config files (and their outputs) should live in a quieter place.
+
+#+begin_src emacs-lisp
+  (use-package no-littering
+    :ensure t)
+#+end_src
+
+Initial screen.
+
+#+begin_src emacs-lisp
+  (setq-default inhibit-startup-screen t
+                initial-scratch-message "")
+#+end_src
+
+=garbage-collect= on focus-out, Emacs /should/ feel snappier.
+
+#+begin_src emacs-lisp
+  (add-hook 'focus-out-hook #'garbage-collect)
+  (global-display-line-numbers-mode)
+#+end_src
+
+** Interface
+
+*** Mode line
+
+[[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the mode-line.
+
+#+begin_src emacs-lisp
+  (use-package delight
+    :ensure t)
+#+end_src
+
+[[https://github.com/seagle0128/doom-modeline][doom-modeline]] for pretty mode-line. Be sure to first run =M-x
+all-the-icons-install-fonts=.
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (setq doom-modeline-buffer-file-name-style 'auto)
+    (setq doom-modeline-height 20)
+    (setq doom-modeline-major-mode-color-icon t)
+    :config
+    (doom-modeline-mode +1))
+#+end_src
+
+*** Visuals
+   
+#+begin_src emacs-lisp
+  (when window-system
+    (blink-cursor-mode 0)
+    (scroll-bar-mode 0)
+    (tool-bar-mode 0)
+    (setq-default frame-title-format "%b (%f)"))
+  (menu-bar-mode 0)
+#+end_src
+
+Use =zenburn-theme= for visuals.
+
+#+begin_src emacs-lisp
+  (defvar me/font-family "Monaco" "The font to use.")
+  (defvar me/font-size-default 120
+    "The font size to use for default text.")
+  (defvar me/font-size-header-line 120
+    "The font size to use for the header-line.")
+  (defvar me/font-size-mode-line 110
+    "The font size to use for the mode-line.")
+  (defvar me/font-size-small 90
+    "The font size to use for smaller text.")
+  (defvar me/font-size-title 140
+    "The font size to use for titles.")
+  
+  (use-package zenburn-theme
+    :ensure t
+    :config
+    (load-theme 'zenburn t)
+    (set-face-attribute 'default nil
+                        :font me/font-family
+                        :height me/font-size-default)
+    (set-face-attribute 'fixed-pitch nil
+                        :font me/font-family)
+    (set-face-attribute 'font-lock-comment-face nil
+                        :italic t)
+    (set-face-attribute 'font-lock-doc-face nil
+                        :italic t)
+    (zenburn-with-color-variables
+      (set-face-attribute 'button nil
+                          :foreground zenburn-yellow-2)
+      (set-face-attribute 'help-argument-name nil
+                          :foreground zenburn-orange
+                          :italic nil)
+      (set-face-attribute 'highlight nil
+                          :background zenburn-yellow
+                          :foreground zenburn-fg-1)
+      (set-face-attribute 'header-line nil
+                          :box `(:line-width 1 :color ,zenburn-bg-1)
+                          :height me/font-size-header-line)
+      (set-face-attribute 'mode-line nil
+                          :box `(:line-width 1 :color ,zenburn-bg-1)
+                          :foreground zenburn-bg+3
+                          :height me/font-size-mode-line)
+      (set-face-attribute 'mode-line-inactive nil
+                          :box `(:line-width 1 :color ,zenburn-bg-05)
+                          :foreground zenburn-bg+3
+                          :height me/font-size-mode-line)
+      (set-face-attribute 'region nil
+                          :background zenburn-fg-1
+                          :distant-foreground 'unspecified)
+      (set-face-attribute 'vertical-border nil :foreground zenburn-bg)))
+#+end_src
+
+Uncategorized obvious stuff
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** Help bindings
+
+=helpful= for a richer version of =describe-=
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :ensure t
+    :bind (("C-c C-d" . helpful-at-point)
+           ("C-h f" . helpful-callable)
+           ("C-h v" . helpful-variable)
+           ("C-h k" . helpful-key)
+           ("C-h o" . helpful-symbol)
+           ("C-h F" . helpful-function)
+           ("C-h C" . helpful-command)))
+#+end_src
+   
+=which-key= to suggest keybind followups.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :delight
+    :config
+    (which-key-mode +1))
+#+end_src
+
+** Navigation
+
+Turn on =recentf-fmode= (recent file mode) to quickly find recently
+edited files.
+
+#+begin_src emacs-lisp
+  (use-package recentf
+    :config
+    (recentf-mode +1)
+    (setq recentf-max-menu-items 40)
+    (setq-default recentf-save-file
+                  (expand-file-name ".recentf")))
+  
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+#+end_src
+
+[[https://www.emacswiki.org/emacs/Projectile][Projectile]] for guessing project boundaries. =git= repos are
+auto-recognized, but this can be manually enabled via touching a
+=.projectile= file.
+
+For the mode-line, just show the project name.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :delight '(:eval (concat " " (projectile-project-name)))
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :config
+    (projectile-global-mode +1))
+#+end_src
+
+[[https://github.com/abo-abo/ace-window][ace-window]] for window navigation, paired with [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]].
+
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :bind (("M-o" . ace-window)))
+  
+  (use-package buffer-move
+    :ensure t)
+#+end_src
+
+Tone down on the vertical scroll.
+
+#+begin_src emacs-lisp
+  (setq-default auto-window-vscroll nil)
+#+end_src
+
+** Completion frameworks
+
+[[https://github.com/abo-abo/swiper][Ivy]] along with swiper for search and counsel for augmented
+functionality.
+
+#+begin_src emacs-lisp
+  (use-package ivy
+    :ensure t
+    :delight
+    :bind (("C-c r" . 'ivy-resume)
+           ("C-x B" . 'ivy-switch-buffer-other-window))
+    :custom
+    (ivy-count-format "(%d/%d) ")
+    (ivy-use-virtual-buffers t)
+    :config
+    (ivy-mode +1))
+  
+  (use-package counsel
+    :ensure t
+    :after ivy
+    :bind (("M-x" . counsel-M-x)))
+  
+  (use-package swiper
+    :ensure t
+    :after ivy
+    :bind (("C-s" . swiper)))
+#+end_src
+
+** Editing
+
+Highlight matching parens and current line.
+
+#+begin_src emacs-lisp
+  (show-paren-mode +1)
+  (global-hl-line-mode +1)
+#+end_src
+
+Kill ring/clipboard settings.
+
+#+begin_src emacs-lisp
+  (setq-default select-enable-clipboard t
+                select-enable-primary t
+                save-interprogram-paste-before-kill t
+                mouse-yank-at-point t)
+#+end_src
+
+Indentation stuff (No tabs).
+
+#+begin_src emacs-lisp
+  (defun me/die-tabs ()
+    (interactive)
+    (set-variable 'tab-width 2)
+    (mark-whole-buffer)
+    (untabify (region-beginning) (region-end))
+    (keyboard-quit))
+  (setq-default indent-tabs-mode nil)
+  (setq electric-indent-mode nil)
+#+end_src
+
+Commenting lines out.
+
+#+begin_src emacs-lisp
+  (defun me/toggle-comment-on-line ()
+    "comment or uncomment current line"
+    (interactive)
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+  (global-set-key (kbd "C-;") 'toggle-comment-on-line)
+#+end_src
+
+Jump back in a file where last located.
+
+#+begin_src emacs-lisp
+  (require 'saveplace)
+  (setq-default save-place t)
+  (setq save-place-file (expand-file-name "places"
+                                          user-emacs-directory))
+#+end_src
+
+Backups, lockfiles, and autosave.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist
+        `(("." . ,(expand-file-name "backups/"
+                                    user-emacs-directory))))
+  (setq auto-save-default nil)
+  (setq create-lockfiles nil)
+#+end_src
+
+[[https://www.emacswiki.org/emacs/HippieExpand][hippie-expand]], tailored to lisp.
+
+#+begin_src emacs-lisp
+  (use-package hippie-expand
+    :ensure f
+    :bind (("M-/" . hippie-expand))
+    :config
+    (setq hippie-expand-try-functions-list
+          '(try-expand-dabbrev
+            try-expand-dabbrev-all-buffers
+            try-expand-dabbrev-from-kill
+            try-complete-lisp-symbol-partially
+            try-complete-lisp-symbol)))
+#+end_src
+
+Uncategorized obvious stuff.
+
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+end_src
+
+Define helper to refresh all open file buffers from disk (stolen from
+[[https://emacs.stackexchange.com/questions/24459/revert-all-open-buffers-and-ignore-errors][StackExchange]]).
+
+#+begin_src emacs-lisp
+  (defun me/revert-all-fbuffers ()
+    "Refresh all open file buffers without confirmation.
+  Buffers in modified (not yet saved) state in emacs will not be reverted. They
+  will be reverted though if they were modified outside emacs.
+  Buffers visiting files which do not exist any more or are no longer readable
+  will be killed."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (let ((filename (buffer-file-name buf)))
+        ;; Revert only buffers containing files, which are not modified;
+        ;; do not try to revert non-file buffers like *Messages*.
+        (when (and filename
+                 (not (buffer-modified-p buf)))
+          (if (file-readable-p filename)
+              ;; If the file exists and is readable, revert the buffer.
+              (with-current-buffer buf
+                (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+            ;; Otherwise, kill the buffer.
+            (let (kill-buffer-query-functions) ; No query done when killing buffer
+              (kill-buffer buf)
+              (message "Killed non-existing/unreadable file buffer: %s" filename))))))
+    (message "Finished reverting buffers containing unmodified files."))
+#+end_src
+
+* =org-mode= settings
+
+#+begin_src emacs-lisp
+  (defvar me/org-home-dir "~/org")
+#+end_src
+
++ Default notes destination.
++ =org-capture= in any emacs buffer with =C-c c=
++ jump to default capture destination with =C-c o=
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure t
+    :bind-keymap ("C-c o" . org-mode-map)
+    :bind (:map org-mode-map
+                ("C-c l" . org-store-link)
+                ("C-c a" . org-agenda)
+                ("C-c c" . org-capture)
+                ("C-c b" . org-switchb)
+                ("C-c o" . (lambda ()
+                             (interactive)
+                             (find-file org-default-notes-file))))
+    :config
+    (setq org-default-notes-file (file-truename (expand-file-name "inbox.org"
+                                                                  me/org-home-dir)))
+    (setq org-agenda-files (list org-default-notes-file)))
+#+end_src
+
+Hide /italics/, *bolds*, and =code= markers.
+
+#+begin_src emacs-lisp
+  (setq-default org-hide-emphasis-markers t)
+#+end_src
+
+Exporting as HTML.
+
+#+begin_src emacs-lisp
+  (use-package htmlize
+    :ensure t)
+#+end_src
+
+View $\LaTeX$.
+
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t)
+#+end_src
+
+Some =org=-related utilities.
+
+#+begin_src emacs-lisp
+  (defun me/org-babel-load-missing-lang (language)
+    (unless (assq language
+                  org-babel-load-languages)
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       (cons (cons language t)
+             org-babel-load-languages))))
+
+  (me/org-babel-load-missing-lang 'shell)
+#+end_src
+
+With =org-mode= v9.2, template expansion is now done via
+=org-insert-structure-template=.
+
+#+begin_src emacs-lisp
+  (org-defkey org-mode-map
+              (kbd "C-c C-,") 'org-insert-structure-template)
+#+end_src
+
+** Capture templates
+
+#+begin_src emacs-lisp
+  (setq org-capture-templates
+        `(("t" "Todo" entry (file+headline
+                             org-default-notes-file "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("j" "Journal" entry (file+datetree
+                                ,(file-truename (expand-file-name "journal.org"
+                                                                  me/org-home-dir)))
+           "* %?\nEntered on %U\n  %i\n  %a")))
+#+end_src
+
+* Languages
+
+** Lisp(s)
+
+Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated cheat sheet]].
+
+#+begin_src emacs-lisp
+  (defvar me/lisp-mode-hooks
+    '(emacs-lisp-mode-hook
+      eval-expression-minibuffer-setup-hook
+      ielm-mode-hook
+      lisp-mode-hook
+      lisp-interaction-mode-hook
+      scheme-mode-hook))
+  
+  (use-package paredit
+    :ensure t
+    :delight
+    :config
+    (dolist (mode-hook me/lisp-mode-hooks)
+      (add-hook mode-hook 'paredit-mode)))
+  
+  (use-package rainbow-delimiters
+    :ensure t
+    :delight
+    :config
+    (dolist (mode-hook me/lisp-mode-hooks)
+      (add-hook mode-hook 'rainbow-delimiters-mode)))
+#+end_src
+
+[[https://www.emacswiki.org/emacs/ElDoc][eldoc-mode]] shows documentation in minibuffer on the fly.
+
+#+begin_src emacs-lisp
+  (dolist (mode-hook me/lisp-mode-hooks)
+    (add-hook mode-hook 'turn-on-eldoc-mode))
+#+end_src
+
+** Clojure
+
++ Java interop necessitates =subword-mode= for CamelCase navigation
++ =pretty-mode= for lambdas and threading
+
+#+begin_src emacs-lisp
+  (use-package clojure-mode-extra-font-locking
+    :ensure t)
+  (use-package clojure-mode
+    :ensure t
+    :delight "Clj"
+    :hook ((clojure-mode . paredit-mode)
+           (clojure-mode . rainbow-delimiters-mode)
+           (clojure-mode . pretty-mode)
+           (clojure-mode . subword-mode)))
+#+end_src
+
+Try to make =cider= look and feel like a regular clojure buffer.
+
+#+begin_src emacs-lisp
+  (use-package cider
+    :ensure t
+    :hook ((cider-repl-mode . eldoc-mode)
+           (cider-repl-mode . paredit-mode)
+           (cider-repl-mode . pretty-mode)
+           (cider-repl-mode . rainbow-delimiters-mode))
+    :config
+    (setq-default cider-repl-pop-to-buffer-on-connect t
+          cider-show-error-buffer t
+          cider-auto-select-error-buffer t
+          cider-repl-history-file (expand-file-name "cider-history"
+                                                    user-emacs-directory)
+          cider-repl-wrap-history t))
+#+end_src
+
+*** =org-mode= based literate programming.
+
+#+begin_src emacs-lisp
+  (me/org-babel-load-missing-lang 'clojure)
+  (require 'ob-clojure)
+  (setq org-babel-clojure-backend 'cider)
+#+end_src
+
+Easy-template for literate clojure notebooks.
+
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("clj" . "src clojure :results silent :tangle generated/tangled.clj"))
+#+end_src
+
+** Racket
+
+#+begin_src emacs-lisp
+  (use-package racket-mode
+    :ensure t
+    :delight "Rack"
+    :hook ((racket-mode . paredit-mode)
+           (racket-mode . rainbow-delimiters-mode)
+           (racket-repl-mode . paredit-mode)
+           (racket-repl-mode . rainbow-delimiters-mode)))
+#+end_src
+
+** Haskell
+
+#+begin_src emacs-lisp
+  (use-package haskell-mode
+    :ensure t
+    :bind (:map haskell-mode-map
+                ("C-c C-l" . haskell-process-load-or-reload)
+                ("C-`" . haskell-interactive-bring)
+                ("C-c C-t" . haskell-process-do-type)
+                ("C-c C-i" . haskell-process-do-info)))
+  
+  (use-package hindent
+    :ensure t
+    :hook haskell-mode)
+#+end_src
+
+** C-family general settings
+
+#+begin_src emacs-lisp
+  (use-package clang-format
+    :ensure t
+    :bind (:map c++-mode-map
+           ("C-c TAB" . clang-format-buffer)
+           :map c-mode-map
+           ("C-c TAB" . clang-format-buffer))
+    :config
+    (setq clang-format-style "Google"))
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp
+  (use-package cargo
+    :ensure t)
+  (use-package rust-mode
+    :ensure t
+    :commands rust-format-buffer
+    :bind (:map rust-mode-map
+                ("C-c <tab>" . rust-format-buffer))
+    :hook ((rust-mode . cargo-minor-mode)))
+#+end_src
+
+** Golang
+
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :ensure t
+    :commands gofmt
+    :bind (:map go-mode-map
+                ("C-c <tab>" . gofmt))
+    :config
+    (add-hook 'before-save-hook 'gofmt-before-save t))
+#+end_src
+
+* Version Control
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t)
+  
+  (delight
+   '((magit-diff-mode "Magit Diff")
+     (magit-log-mode "Magit Log")
+     (magit-popup-mode "Magit Popup")
+     (magit-status-mode "Magit Status")))
+  
+  (use-package gitattributes-mode
+    :ensure t
+    :delight gitattributes-mode "Git Attributes")
+  (use-package gitconfig-mode
+    :ensure t
+    :delight gitconfig-mode "Git Config")
+  (use-package gitignore-mode
+    :ensure t
+    :delight gitignore-mode "Git Ignore")
+#+end_src
+
+* Final Overrides
+
+** Load =.custom.el=
+
+Tell Emacs to add extra code in another file that would be then
+loaded, if existing.
+
+#+begin_src emacs-lisp
+  (setq-default custom-file (expand-file-name ".custom.el"
+                                              user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+end_src
+
+* Afterword
+
+Much of the skeleton settings were lifted from
+[[https://github.com/angrybacon/dotemacs]].
+
+In general, see [[https://orgmode.org/worg/org-contrib/babel/intro.html][intro to org/babel]].
