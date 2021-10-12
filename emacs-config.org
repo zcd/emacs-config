@@ -135,6 +135,23 @@ Use =zenburn-theme= for visuals.
       (set-face-attribute 'vertical-border nil :foreground zenburn-bg)))
 #+end_src
 
+Make =ibuffer= interact with =projectile=.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  
+  (use-package ibuffer-projectile
+    :ensure t
+    :config
+    (add-hook 'ibuffer-hook
+              (lambda ()
+                (ibuffer-projectile-set-filter-groups)
+                (unless (eq ibuffer-sorting-mode 'alphabetic)
+                  (ibuffer-do-sort-by-alphabetic)
+                  (ibuffer-do-sort-by-major-mode)
+                  (ibuffer-do-sort-by-filename/process)))))
+#+end_src
+
 Uncategorized obvious stuff
 
 #+begin_src emacs-lisp
