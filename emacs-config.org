@@ -152,6 +152,38 @@ Use =zenburn-theme= for visuals.
                   (ibuffer-do-sort-by-filename/process)))))
 #+end_src
 
+=zoom-mode= to auto-resize buffers. These are the following configured
+options:
+
++ 100 columns and 61.8% of the frame height if frame height is greater
+  than macbook 13" resolution
+  + 1600 pixel
+  + 62 chars
++ half split otherwise
+
+Meanwhile only size if there are at least 20 lines in the buffer.
+
+#+begin_src emacs-lisp
+  (defun me/zoom--size-callback ()
+    (cond ((> (frame-pixel-height) (if (display-graphic-p) 1600 62))
+           '(100 . 0.618))
+          (t
+           '(0.5 . 0.5))))
+  
+  (defun me/zoom--ignore-pred ()
+    (< (count-lines (point-min)
+                    (point-max))
+       20))
+  
+  (use-package zoom
+    :ensure t
+    :bind ("M-+" . zoom)
+    :custom
+    (zoom-mode +1)
+    (zoom-size #'me/zoom--size-callback)
+    (zoom-ignore-predicates '(me/zoom--ignore-pred)))
+#+end_src
+
 Uncategorized obvious stuff
 
 #+begin_src emacs-lisp
