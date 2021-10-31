@@ -490,6 +490,8 @@ With =org-mode= v9.2, template expansion is now done via
 #+begin_src emacs-lisp
   (use-package org-roam
     :ensure t
+    :init
+    (setq org-roam-v2-ack t)
     :custom
     (org-roam-directory (file-truename (expand-file-name "roam"
                                                          me/org-home-dir)))
@@ -498,9 +500,10 @@ With =org-mode= v9.2, template expansion is now done via
            ("C-c n g" . org-roam-graph)
            ("C-c n i" . org-roam-node-insert)
            ("C-c n c" . org-roam-capture)
-           ("C-c n j" . org-roam-dailies-capture-today))
-    :init
-    (setq org-roam-v2-ack t)
+           ("C-c n t" . org-roam-tag-add)
+           ("C-c n T" . org-roam-tag-remove))
+    :bind-keymap
+    ("C-c n d" . org-roam-dailies-map)
     :config
     (org-roam-db-autosync-mode))
 #+end_src
