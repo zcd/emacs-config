@@ -415,15 +415,13 @@ Define helper to refresh all open file buffers from disk (stolen from
 #+begin_src emacs-lisp
   (use-package org
     :ensure t
-    :bind-keymap ("C-c o" . org-mode-map)
-    :bind (:map org-mode-map
-                ("C-c l" . org-store-link)
-                ("C-c a" . org-agenda)
-                ("C-c c" . org-capture)
-                ("C-c b" . org-switchb)
-                ("C-c o" . (lambda ()
-                             (interactive)
-                             (find-file org-default-notes-file))))
+    :bind (("C-c o l" . org-store-link)
+           ("C-c o a" . org-agenda)
+           ("C-c o c" . org-capture)
+           ("C-c o b" . org-switchb)
+           ("C-c o o" . (lambda ()
+                        (interactive)
+                        (find-file org-default-notes-file))))
     :config
     (setq org-default-notes-file (file-truename (expand-file-name "inbox.org"
                                                                   me/org-home-dir)))
