@@ -15,10 +15,12 @@ This config file.
                                                           user-emacs-directory))
   
   (defun me/emacs-config ()
+    "Open my emacs config"
     (interactive)
     (find-file me/emacs-config-file))
   
   (defun me/emacs-config-load ()
+    "org-babel tangle then and load my emacs config"
     (interactive)
     (org-babel-tangle-file me/emacs-config-file me/emacs-config-generated-elisp)
     (load-file me/emacs-config-generated-elisp))
@@ -315,6 +317,7 @@ Indentation stuff (No tabs).
 
 #+begin_src emacs-lisp
   (defun me/die-tabs ()
+    "Replace all tabs with 2 spaces in current buffer"
     (interactive)
     (set-variable 'tab-width 2)
     (mark-whole-buffer)
@@ -453,13 +456,14 @@ Some =org=-related utilities.
 
 #+begin_src emacs-lisp
   (defun me/org-babel-load-missing-lang (language)
+    "Add the given language symbol only if it hasn't been included."
     (unless (assq language
                   org-babel-load-languages)
       (org-babel-do-load-languages
        'org-babel-load-languages
        (cons (cons language t)
              org-babel-load-languages))))
-
+  
   (me/org-babel-load-missing-lang 'shell)
 #+end_src
 
@@ -563,7 +567,6 @@ With =org-mode= v9.2, template expansion is now done via
    (add-to-list 'org-structure-template-alist
                 '("clj" . "src clojure :results silent :tangle generated/tangled.clj"))
  #+end_src
-
 *** Common Lisp (SBCL)
 
  #+begin_src emacs-lisp
