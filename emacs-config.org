@@ -311,6 +311,10 @@ Kill ring/clipboard settings.
                 select-enable-primary t
                 save-interprogram-paste-before-kill t
                 mouse-yank-at-point t)
+  
+  (use-package browse-kill-ring
+    :ensure t
+    :bind ("C-c y" . browse-kill-ring))
 #+end_src
 
 Indentation stuff (No tabs).
