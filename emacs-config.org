@@ -44,7 +44,6 @@ Initial screen.
 
 #+begin_src emacs-lisp
   (add-hook 'focus-out-hook #'garbage-collect)
-  (global-display-line-numbers-mode)
 #+end_src
 
 ** Interface
@@ -73,6 +72,12 @@ all-the-icons-install-fonts=.
 #+end_src
 
 *** Visuals
+
+Modern support for line numbers.
+
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode)
+#+end_src
    
 #+begin_src emacs-lisp
   (when window-system
