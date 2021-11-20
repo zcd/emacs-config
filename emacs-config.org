@@ -61,6 +61,36 @@ Initial screen.
 
 ** Interface
 
+Pretty icons
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :if (display-graphic-p))
+  
+  (use-package all-the-icons-dired
+    :ensure t
+    :after (all-the-icons dired))
+#+end_src
+
+*** Treemacs
+
+It's nice to have treemacs available when I want it.
+
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :bind ("C-x t t" . treemacs))
+  
+  (use-package treemacs-projectile
+    :ensure t
+    :after (treemacs projectile))
+  
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+#+end_src
+
 *** Mode line
 
 [[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the mode-line.
