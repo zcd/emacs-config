@@ -26,6 +26,8 @@ This config file.
     (load-file me/emacs-config-generated-elisp))
 #+end_src
 
+** Cleanliness
+
 Other config files (and their outputs) should live in a quieter place.
 
 #+begin_src emacs-lisp
@@ -44,6 +46,17 @@ Initial screen.
 
 #+begin_src emacs-lisp
   (add-hook 'focus-out-hook #'garbage-collect)
+#+end_src
+
+=midnight-mode= settings for automatic buffer cleanup
+
+#+begin_src emacs-lisp
+  (use-package midnight
+    :config
+    (dolist (buffer-re '("\\*helpful.*\\*"
+                         "magit.*"))
+      (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
+    (midnight-mode +1))
 #+end_src
 
 ** Interface
