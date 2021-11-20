@@ -295,6 +295,16 @@ functionality.
     :bind (("C-s" . swiper)))
 #+end_src
 
+=ivy-prescient= for smarter history-based suggestions
+
+#+begin_src emacs-lisp
+  (use-package ivy-prescient
+    :ensure t
+    :after ivy
+    :config
+    (ivy-prescient-mode +1))
+#+end_src
+
 ** Editing
 
 Highlight matching parens and current line.
