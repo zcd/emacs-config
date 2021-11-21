@@ -501,6 +501,7 @@ Define helper to refresh all open file buffers from disk (stolen from
     (setq org-default-notes-file (file-truename (expand-file-name "inbox.org"
                                                                   me/org-home-dir)))
     (setq org-agenda-files (list org-default-notes-file))
+    (setq org-agenda-todo-ignore-scheduled 'future)
     (setq org-refile-targets '((org-agenda-files :maxlevel . 3))))
 #+end_src
 
