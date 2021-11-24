@@ -484,8 +484,8 @@ Define helper to refresh all open file buffers from disk (stolen from
 #+end_src
 
 + Default notes destination.
-+ =org-capture= in any emacs buffer with =C-c c=
-+ jump to default capture destination with =C-c o=
++ =org-capture= in any emacs buffer with =C-c o c=
++ jump to default capture destination with =C-c o o=
 
 #+begin_src emacs-lisp
   (use-package org
@@ -495,14 +495,19 @@ Define helper to refresh all open file buffers from disk (stolen from
            ("C-c o c" . org-capture)
            ("C-c o b" . org-switchb)
            ("C-c o o" . (lambda ()
-                        (interactive)
-                        (find-file org-default-notes-file))))
-    :config
-    (setq org-default-notes-file (file-truename (expand-file-name "inbox.org"
+                          (interactive)
+                          (find-file org-default-notes-file))))
+    :custom
+    (org-default-notes-file (file-truename (expand-file-name "inbox.org"
                                                                   me/org-home-dir)))
-    (setq org-agenda-files (list org-default-notes-file))
-    (setq org-agenda-todo-ignore-scheduled 'future)
-    (setq org-refile-targets '((org-agenda-files :maxlevel . 3))))
+    (org-agenda-files (list org-default-notes-file))
+    (org-agenda-todo-ignore-scheduled 'future)
+    (org-refile-targets '((org-agenda-files :maxlevel . 3))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package org-contrib
+    :ensure t)
 #+end_src
 
 Hide /italics/, *bolds*, and =code= markers.

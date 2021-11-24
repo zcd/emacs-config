@@ -6,7 +6,7 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
-             '("org" . "http://orgmode.org/elpa/") t)
+             '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -15,8 +15,8 @@
 
 (require 'use-package)
 
-;; Latest org package.
-(use-package org :ensure org-plus-contrib)
+(use-package org-contrib
+  :ensure t)
 
 ;; Tangle config.
 (org-babel-load-file (expand-file-name "emacs-config.org"
