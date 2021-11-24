@@ -11,19 +11,16 @@ This config file.
 #+begin_src emacs-lisp
   (setq me/emacs-config-file (expand-file-name "emacs-config.org"
                                                user-emacs-directory))
-  (setq me/emacs-config-generated-elisp (expand-file-name "emacs-config.el"
-                                                          user-emacs-directory))
-  
+
   (defun me/emacs-config ()
     "Open my emacs config"
     (interactive)
     (find-file me/emacs-config-file))
-  
+
   (defun me/emacs-config-load ()
-    "org-babel tangle then and load my emacs config"
+    "org-babel reload of the main startup config"
     (interactive)
-    (org-babel-tangle-file me/emacs-config-file me/emacs-config-generated-elisp)
-    (load-file me/emacs-config-generated-elisp))
+    (org-babel-load-file me/emacs-config-file))
 #+end_src
 
 ** Cleanliness
