@@ -755,23 +755,12 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t)
-  
-  (delight
-   '((magit-diff-mode "Magit Diff")
-     (magit-log-mode "Magit Log")
-     (magit-popup-mode "Magit Popup")
-     (magit-status-mode "Magit Status")))
-  
-  (use-package gitattributes-mode
     :ensure t
-    :delight gitattributes-mode "Git Attributes")
-  (use-package gitconfig-mode
-    :ensure t
-    :delight gitconfig-mode "Git Config")
-  (use-package gitignore-mode
-    :ensure t
-    :delight gitignore-mode "Git Ignore")
+    :delight
+    (magit-diff-mode "Magit Diff")
+    (magit-log-mode "Magit Log")
+    (magit-popup-mode "Magit Popup")
+    (magit-status-mode "Magit Status"))
 #+end_src
 
 * Final Overrides
