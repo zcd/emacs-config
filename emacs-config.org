@@ -566,6 +566,13 @@ With =org-mode= v9.2, template expansion is now done via
            "* %?\nEntered on %U\n  %i\n  %a")))
 #+end_src
 
+I write a lot of =emacs-lisp= via =org-mode=
+
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("el" . "src emacs-lisp"))
+#+end_src
+
 ** =org-roam= experimentation
 
 #+begin_src emacs-lisp
@@ -642,6 +649,7 @@ With =org-mode= v9.2, template expansion is now done via
    (add-to-list 'org-structure-template-alist
                 '("clj" . "src clojure :results silent :tangle generated/tangled.clj"))
  #+end_src
+
 *** Common Lisp (SBCL)
 
  #+begin_src emacs-lisp
