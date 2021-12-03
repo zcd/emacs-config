@@ -328,16 +328,20 @@ functionality.
     (ivy-use-virtual-buffers t)
     :config
     (ivy-mode +1))
-  
+
   (use-package counsel
     :ensure t
     :after ivy
     :bind (("M-x" . counsel-M-x)))
-  
+
   (use-package swiper
     :ensure t
     :after ivy
     :bind (("C-s" . swiper)))
+
+  (use-package avy
+    :ensure t
+    :bind ("M-j" . avy-goto-char-timer))
 #+end_src
 
 =ivy-prescient= for smarter history-based suggestions
