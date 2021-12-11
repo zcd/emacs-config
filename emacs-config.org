@@ -377,7 +377,11 @@ Kill ring/clipboard settings.
                 select-enable-primary t
                 save-interprogram-paste-before-kill t
                 mouse-yank-at-point t)
-  
+
+  (defun me/kill-ring--clear ()
+    (interactive)
+    (setq kill-ring '()))
+
   (use-package browse-kill-ring
     :ensure t
     :bind ("C-c y" . browse-kill-ring))
@@ -497,7 +501,7 @@ Define helper to refresh all open file buffers from disk (stolen from
                           (find-file org-default-notes-file))))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
-                                                                  me/org-home-dir)))
+                                                             me/org-home-dir)))
     (org-agenda-files (list org-default-notes-file))
     (org-agenda-todo-ignore-scheduled 'future)
     (org-refile-targets '((org-agenda-files :maxlevel . 3))))
