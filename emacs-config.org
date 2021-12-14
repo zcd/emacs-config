@@ -187,13 +187,16 @@ Use =zenburn-theme= for visuals.
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+  (use-package ibuffer
+    :bind ("C-x C-b" . ibuffer)
+    :config
+    (add-hook 'ibuffer-hook #'ibuffer-do-sort-by-major-mode))
+
   (use-package ibuffer-vc
     :ensure t
+    :after ibuffer
     :config
-    (add-hook 'ibuffer-hook
-              (lambda ()
-                (ibuffer-vc-set-filter-groups-by-vc-root)
-                (ibuffer-do-sort-by-major-mode))))
+    (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root))
 #+end_src
 
 =zoom-mode= to auto-resize buffers. These are the following configured
