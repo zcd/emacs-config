@@ -788,6 +788,32 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     (magit-status-mode "Magit Status"))
 #+end_src
 
+Enable autocommit for some custom org files.
+
+#+begin_src emacs-lisp
+  (use-package git-auto-commit-mode
+    :ensure t
+    :config
+    (dolist (setting '((gac-automatically-add-new-files-p . t)
+                       (gac-automatically-push-p . t)
+                       (gac-default-message . (lambda (filename)
+                                                (current-time-string)))
+                       (gac-debounce-interval . 3600)))
+      (add-to-list 'safe-local-variable-values setting)))
+#+end_src
+
+In order to enable this, insert the following snippet in a
+=.dir-locals.el= inside the git repo of choice.
+
+#+begin_src emacs-lisp :tangle no
+  ((org-mode . ((gac-automatically-add-new-files-p . t)
+                (gac-automatically-push-p . t)
+                (gac-default-message . (lambda (filename)
+                                         (current-time-string)))
+                (gac-debounce-interval . 3600)  ; wait 1h between auto-commits
+                (eval git-auto-commit-mode +1))))
+#+end_src
+
 * Final Overrides
 
 ** Load =.custom.el=
