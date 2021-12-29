@@ -660,13 +660,19 @@ I write a lot of =emacs-lisp= via =org-mode=
 
 *** Common Lisp (SBCL)
 
- #+begin_src emacs-lisp
-   (use-package slime
-     :ensure t
-     :bind ("C-x M-e" . slime-eval-last-expression)
-     :config
-     (setq inferior-lisp-program "sbcl"))
- #+end_src
+#+begin_src emacs-lisp
+  (use-package slime
+    :ensure t
+    :bind ("C-x M-e" . slime-eval-last-expression)
+    :config
+    (setq inferior-lisp-program "sbcl"))
+#+end_src
+
+Support =org-babel= for common lisp.
+
+#+begin_src emacs-lisp
+  (me/org-babel-load-missing-lang 'lisp)
+#+end_src
 
 *** Lisp-wide settings
 
