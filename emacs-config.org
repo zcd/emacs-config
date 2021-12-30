@@ -128,30 +128,43 @@ Modern support for line numbers.
   (menu-bar-mode 0)
 #+end_src
 
-Use =zenburn-theme= for visuals.
+Use =zenburn-theme= for visuals. The system-agnostic check for font
+existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this blog post]].
 
 #+begin_src emacs-lisp
-  (defvar me/font-family "Monaco" "The font to use.")
-  (defvar me/font-size-default 120
-    "The font size to use for default text.")
-  (defvar me/font-size-header-line 120
-    "The font size to use for the header-line.")
-  (defvar me/font-size-mode-line 110
-    "The font size to use for the mode-line.")
-  (defvar me/font-size-small 90
-    "The font size to use for smaller text.")
-  (defvar me/font-size-title 140
-    "The font size to use for titles.")
-  
+  (cl-defstruct font-settings
+    family
+    size-default
+    size-header-line
+    size-mode-line
+    size-smalltext
+    size-title)
+
+  (defvar me/font-config
+    (cond ((find-font (font-spec :name "Monaco"))
+           (make-font-settings :family "Monaco"
+                               :size-default 120
+                               :size-header-line 120
+                               :size-mode-line 110
+                               :size-smalltext 90
+                               :size-title 140))
+          ((find-font (font-spec :name "DejaVu Sans Mono"))
+           (make-font-settings :family "DejaVu Sans Mono"
+                               :size-default 140
+                               :size-header-line 140
+                               :size-mode-line 120
+                               :size-smalltext 110
+                               :size-title 160))))
+
   (use-package zenburn-theme
     :ensure t
     :config
     (load-theme 'zenburn t)
     (set-face-attribute 'default nil
-                        :font me/font-family
-                        :height me/font-size-default)
+                        :font (font-settings-family me/font-config)
+                        :height (font-settings-size-default me/font-config))
     (set-face-attribute 'fixed-pitch nil
-                        :font me/font-family)
+                        :font (font-settings-family me/font-config))
     (set-face-attribute 'font-lock-comment-face nil
                         :italic t)
     (set-face-attribute 'font-lock-doc-face nil
@@ -167,15 +180,15 @@ Use =zenburn-theme= for visuals.
                           :foreground zenburn-fg-1)
       (set-face-attribute 'header-line nil
                           :box `(:line-width 1 :color ,zenburn-bg-1)
-                          :height me/font-size-header-line)
+                          :height (font-settings-size-header-line me/font-config))
       (set-face-attribute 'mode-line nil
                           :box `(:line-width 1 :color ,zenburn-bg-1)
                           :foreground zenburn-bg+3
-                          :height me/font-size-mode-line)
+                          :height (font-settings-size-mode-line me/font-config))
       (set-face-attribute 'mode-line-inactive nil
                           :box `(:line-width 1 :color ,zenburn-bg-05)
                           :foreground zenburn-bg+3
-                          :height me/font-size-mode-line)
+                          :height (font-settings-size-mode-line me/font-config))
       (set-face-attribute 'region nil
                           :background zenburn-fg-1
                           :distant-foreground 'unspecified)
