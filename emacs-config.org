@@ -530,9 +530,14 @@ Define helper to refresh all open file buffers from disk (stolen from
     (org-refile-targets '((org-agenda-files :maxlevel . 3))))
 #+end_src
 
+=org-pomodoro= integration with =org-clock-in= is a nifty feature for time
+management.
+
 #+begin_src emacs-lisp
-  (use-package org-contrib
-    :ensure t)
+  (use-package org-pomodoro
+    :ensure t
+    :custom
+    (org-pomodoro-clock-break t))
 #+end_src
 
 Hide /italics/, *bolds*, and =code= markers.
