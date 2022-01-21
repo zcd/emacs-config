@@ -201,8 +201,6 @@ themes.
 =ibuffer=
 
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-
   (use-package ibuffer
     :bind ("C-x C-b" . ibuffer)
     :config
