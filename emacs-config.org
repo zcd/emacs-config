@@ -90,7 +90,7 @@ It's nice to have treemacs available when I want it.
 
 *** Mode line
 
-[[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the mode-line.
+[[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the per-mode text on the mode line.
 
 #+begin_src emacs-lisp
   (use-package delight
@@ -103,10 +103,10 @@ all-the-icons-install-fonts=.
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :ensure t
-    :init
-    (setq doom-modeline-buffer-file-name-style 'auto)
-    (setq doom-modeline-height 20)
-    (setq doom-modeline-major-mode-color-icon t)
+    :custom
+    (doom-modeline-buffer-file-name-style 'auto)
+    (doom-modeline-height 20)
+    (doom-modeline-major-mode-color-icon t)
     :config
     (doom-modeline-mode +1))
 #+end_src
