@@ -128,8 +128,10 @@ Modern support for line numbers.
   (menu-bar-mode 0)
 #+end_src
 
-Use =zenburn-theme= for visuals. The system-agnostic check for font
-existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this blog post]].
+*** Fonts
+
+The system-agnostic check for font existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this blog
+post]].
 
 #+begin_src emacs-lisp
   (cl-defstruct font-settings
@@ -156,43 +158,44 @@ existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-fon
                                :size-smalltext 110
                                :size-title 160))))
 
+  (set-face-attribute 'default nil
+                      :font (font-settings-family me/font-config)
+                      :height (font-settings-size-default me/font-config))
+  (set-face-attribute 'fixed-pitch nil
+                      :font (font-settings-family me/font-config))
+  (set-face-attribute 'font-lock-comment-face nil
+                      :italic t)
+  (set-face-attribute 'font-lock-doc-face nil
+                      :italic t)
+#+end_src
+
+*** Theming
+
+- During the day, use [[https://github.com/john2x/plan9-theme.el][plan9]].
+- When it gets dark, use [[https://github.com/bbatsov/zenburn-emacs][zenburn]].
+
+#+begin_src emacs-lisp
   (use-package zenburn-theme
+    :ensure t)
+
+  (use-package plan9-theme
+    :ensure t)
+
+  (use-package circadian
     :ensure t
+    :custom
+    (circadian-themes '(("8:00" . plan9)
+                        ("19:30" . zenburn)))
     :config
-    (load-theme 'zenburn t)
-    (set-face-attribute 'default nil
-                        :font (font-settings-family me/font-config)
-                        :height (font-settings-size-default me/font-config))
-    (set-face-attribute 'fixed-pitch nil
-                        :font (font-settings-family me/font-config))
-    (set-face-attribute 'font-lock-comment-face nil
-                        :italic t)
-    (set-face-attribute 'font-lock-doc-face nil
-                        :italic t)
-    (zenburn-with-color-variables
-      (set-face-attribute 'button nil
-                          :foreground zenburn-yellow-2)
-      (set-face-attribute 'help-argument-name nil
-                          :foreground zenburn-orange
-                          :italic nil)
-      (set-face-attribute 'highlight nil
-                          :background zenburn-yellow
-                          :foreground zenburn-fg-1)
-      (set-face-attribute 'header-line nil
-                          :box `(:line-width 1 :color ,zenburn-bg-1)
-                          :height (font-settings-size-header-line me/font-config))
-      (set-face-attribute 'mode-line nil
-                          :box `(:line-width 1 :color ,zenburn-bg-1)
-                          :foreground zenburn-bg+3
-                          :height (font-settings-size-mode-line me/font-config))
-      (set-face-attribute 'mode-line-inactive nil
-                          :box `(:line-width 1 :color ,zenburn-bg-05)
-                          :foreground zenburn-bg+3
-                          :height (font-settings-size-mode-line me/font-config))
-      (set-face-attribute 'region nil
-                          :background zenburn-fg-1
-                          :distant-foreground 'unspecified)
-      (set-face-attribute 'vertical-border nil :foreground zenburn-bg)))
+    (circadian-setup))
+#+end_src
+
+Alternatively these commands will quick clear-and-enable the day/night
+themes.
+
+#+begin_src emacs-lisp :tangle no
+  (circadian-enable-theme 'plan9)
+  (circadian-enable-theme 'zenburn)
 #+end_src
 
 =ibuffer=
@@ -622,9 +625,8 @@ I write a lot of =emacs-lisp= via =org-mode=
            ("C-c n i" . org-roam-node-insert)
            ("C-c n c" . org-roam-capture)
            ("C-c n t" . org-roam-tag-add)
-           ("C-c n T" . org-roam-tag-remove))
-    :bind-keymap
-    ("C-c n d" . org-roam-dailies-map)
+           ("C-c n T" . org-roam-tag-remove)
+           ("C-c n d" . org-roam-dailies-capture-today))
     :config
     (org-roam-db-autosync-mode))
 #+end_src
