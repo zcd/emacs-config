@@ -9,8 +9,8 @@
 This config file.
 
 #+begin_src emacs-lisp
-  (setq me/emacs-config-file (expand-file-name "emacs-config.org"
-                                               user-emacs-directory))
+  (defvar me/emacs-config-file (expand-file-name "emacs-config.org"
+                                                 user-emacs-directory))
 
   (defun me/emacs-config ()
     "Open my emacs config"
@@ -288,8 +288,9 @@ edited files.
     (recentf-mode +1)
     (setq recentf-max-menu-items 40)
     (setq-default recentf-save-file
-                  (expand-file-name ".recentf")))
-  
+                  (expand-file-name ".recentf"
+                                    user-emacs-directory)))
+
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)
 #+end_src
