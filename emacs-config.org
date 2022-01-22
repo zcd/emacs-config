@@ -158,15 +158,21 @@ post]].
                                :size-smalltext 110
                                :size-title 160))))
 
-  (set-face-attribute 'default nil
-                      :font (font-settings-family me/font-config)
-                      :height (font-settings-size-default me/font-config))
-  (set-face-attribute 'fixed-pitch nil
-                      :font (font-settings-family me/font-config))
-  (set-face-attribute 'font-lock-comment-face nil
-                      :italic t)
-  (set-face-attribute 'font-lock-doc-face nil
-                      :italic t)
+  (defun me/set-frame-font (frame)
+    (with-selected-frame frame
+      (when window-system
+        (set-face-attribute 'default frame
+                            :font (font-settings-family me/font-config)
+                            :height (font-settings-size-default me/font-config))
+        (set-face-attribute 'fixed-pitch frame
+                            :font (font-settings-family me/font-config))
+        (set-face-attribute 'font-lock-comment-face frame
+                            :italic t)
+        (set-face-attribute 'font-lock-doc-face frame
+                            :italic t))))
+
+  (add-hook 'after-make-frame-functions
+            #'me/set-frame-font)
 #+end_src
 
 *** Theming
@@ -662,11 +668,11 @@ I write a lot of =emacs-lisp= via =org-mode=
             (cider-repl-mode . rainbow-delimiters-mode))
      :config
      (setq-default cider-repl-pop-to-buffer-on-connect t
-           cider-show-error-buffer t
-           cider-auto-select-error-buffer t
-           cider-repl-history-file (expand-file-name "cider-history"
-                                                     user-emacs-directory)
-           cider-repl-wrap-history t))
+                   cider-show-error-buffer t
+                   cider-auto-select-error-buffer t
+                   cider-repl-history-file (expand-file-name "cider-history"
+                                                             user-emacs-directory)
+                   cider-repl-wrap-history t))
  #+end_src
 
 **** =org-mode= based literate programming.
