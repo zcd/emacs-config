@@ -725,21 +725,21 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :delight
     :config
     (dolist (mode-hook me/lisp-mode-hooks)
-      (add-hook mode-hook 'paredit-mode)))
+      (add-hook mode-hook #'paredit-mode)))
   
   (use-package rainbow-delimiters
     :ensure t
     :delight
     :config
     (dolist (mode-hook me/lisp-mode-hooks)
-      (add-hook mode-hook 'rainbow-delimiters-mode)))
+      (add-hook mode-hook #'rainbow-delimiters-mode)))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/ElDoc][eldoc-mode]] shows documentation in minibuffer on the fly.
 
 #+begin_src emacs-lisp
   (dolist (mode-hook me/lisp-mode-hooks)
-    (add-hook mode-hook 'turn-on-eldoc-mode))
+    (add-hook mode-hook #'turn-on-eldoc-mode))
 #+end_src
  
 ** Racket
@@ -805,7 +805,7 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :bind (:map go-mode-map
                 ("C-c <tab>" . gofmt))
     :config
-    (add-hook 'before-save-hook 'gofmt-before-save t))
+    (add-hook 'before-save-hook #'gofmt-before-save t))
 #+end_src
 
 * Version Control
