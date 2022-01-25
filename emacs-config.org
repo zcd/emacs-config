@@ -461,11 +461,14 @@ Jump back in a file where last located.
 Backups, lockfiles, and autosave.
 
 #+begin_src emacs-lisp
-  (setq backup-directory-alist
-        `(("." . ,(expand-file-name "backups/"
-                                    user-emacs-directory))))
-  (setq auto-save-default nil)
-  (setq create-lockfiles nil)
+  (use-package files
+    :ensure nil
+    :custom
+    (backup-directory-alist
+     `(("." . ,(expand-file-name "backups/"
+                                 no-littering-var-directory))))
+    (auto-save-default nil)
+    (create-lockfiles nil))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/HippieExpand][hippie-expand]], tailored to lisp.
