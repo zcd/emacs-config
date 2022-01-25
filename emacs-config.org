@@ -310,10 +310,9 @@ For the mode-line, just show the project name.
 #+begin_src emacs-lisp
   (use-package projectile
     :ensure t
+    :init (projectile-mode +1)
     :delight '(:eval (concat " " (projectile-project-name)))
-    :bind-keymap ("C-c p" . projectile-command-map)
-    :config
-    (projectile-global-mode +1))
+    :bind-keymap ("C-c p" . projectile-command-map))
 #+end_src
 
 [[https://github.com/abo-abo/ace-window][ace-window]] for window navigation, paired with [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]].
