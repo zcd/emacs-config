@@ -214,7 +214,7 @@ themes.
 
   (use-package ibuffer-vc
     :ensure t
-    :after ibuffer
+    :after (ibuffer)
     :config
     (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root))
 #+end_src
