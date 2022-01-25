@@ -511,9 +511,10 @@ Define helper to refresh all open file buffers from disk (stolen from
   (defvar me/org-home-dir "~/org")
 #+end_src
 
-+ Default notes destination.
-+ =org-capture= in any emacs buffer with =C-c o c=
-+ jump to default capture destination with =C-c o o=
+- Default notes destination.
+- =org-capture= in any emacs buffer with =C-c o c=
+- jump to default capture destination with =C-c o o=
+- Hide /italics/, *bolds*, and =code= markers.
 
 #+begin_src emacs-lisp
   (use-package org
@@ -530,7 +531,15 @@ Define helper to refresh all open file buffers from disk (stolen from
                                                              me/org-home-dir)))
     (org-agenda-files (list org-default-notes-file))
     (org-agenda-todo-ignore-scheduled 'future)
+    (org-hide-emphasis-markers t)
     (org-refile-targets '((org-agenda-files :maxlevel . 3))))
+
+
+  (use-package org-id
+    :ensure nil
+    :custom
+    (org-id-locations-file (expand-file-name ".org-id-locations"
+                                             no-littering-var-directory)))
 #+end_src
 
 =org-pomodoro= integration with =org-clock-in= is a nifty feature for time
@@ -541,12 +550,6 @@ management.
     :ensure t
     :custom
     (org-pomodoro-clock-break t))
-#+end_src
-
-Hide /italics/, *bolds*, and =code= markers.
-
-#+begin_src emacs-lisp
-  (setq-default org-hide-emphasis-markers t)
 #+end_src
 
 Exporting as HTML.
