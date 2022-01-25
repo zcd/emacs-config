@@ -78,12 +78,13 @@ It's nice to have treemacs available when I want it.
   (use-package treemacs
     :ensure t
     :bind ("C-x t t" . treemacs))
-  
+
   (use-package treemacs-projectile
     :ensure t
     :after (treemacs projectile))
-  
+
   (use-package treemacs-icons-dired
+    :after (dired)
     :hook (dired-mode . treemacs-icons-dired-enable-once)
     :ensure t)
 #+end_src
