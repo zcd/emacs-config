@@ -890,10 +890,3 @@ loaded, if existing.
     (when (file-exists-p custom-file)
       (load custom-file)))
 #+end_src
-
-* Afterword
-
-Much of the skeleton settings were lifted from
-[[https://github.com/angrybacon/dotemacs]].
-
-In general, see [[https://orgmode.org/worg/org-contrib/babel/intro.html][intro to org/babel]].
