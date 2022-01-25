@@ -321,8 +321,9 @@ For the mode-line, just show the project name.
 #+begin_src emacs-lisp
   (use-package ace-window
     :ensure t
-    :bind (("M-o" . ace-window)))
-  
+    :bind (("M-o" . ace-window))
+    :custom (aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+
   (use-package buffer-move
     :ensure t)
 #+end_src
@@ -643,7 +644,6 @@ I write a lot of =emacs-lisp= via =org-mode=
 *** Clojure
 
  + Java interop necessitates =subword-mode= for CamelCase navigation
- + =pretty-mode= for lambdas and threading
 
  #+begin_src emacs-lisp
    (use-package clojure-mode-extra-font-locking
@@ -653,7 +653,6 @@ I write a lot of =emacs-lisp= via =org-mode=
      :delight "Clj"
      :hook ((clojure-mode . paredit-mode)
             (clojure-mode . rainbow-delimiters-mode)
-            (clojure-mode . pretty-mode)
             (clojure-mode . subword-mode)))
  #+end_src
 
@@ -664,7 +663,6 @@ I write a lot of =emacs-lisp= via =org-mode=
      :ensure t
      :hook ((cider-repl-mode . eldoc-mode)
             (cider-repl-mode . paredit-mode)
-            (cider-repl-mode . pretty-mode)
             (cider-repl-mode . rainbow-delimiters-mode))
      :config
      (setq-default cider-repl-pop-to-buffer-on-connect t
@@ -845,6 +843,28 @@ In order to enable this, insert the following snippet in a
                 (gac-debounce-interval . 3600)  ; wait 1h between auto-commits
                 (eval git-auto-commit-mode +1))))
 #+end_src
+
+* Encryption
+
+EasyPG support for =.gpg= extension files.
+
+#+begin_src emacs-lisp
+  (use-package epa-file
+    :config
+    (epa-file-enable))
+#+end_src
+
+=org-crypt= for heading-specific encryption in =org-mode= buffers (not
+necessarily with the =.gpg= extensions)
+
+#+begin_src emacs-lisp
+  (use-package org-crypt
+    :ensure nil
+    :after org
+    :config
+    (org-crypt-use-before-save-magic))
+#+end_src
+
 
 * Final Overrides
 
