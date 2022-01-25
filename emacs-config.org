@@ -751,11 +751,13 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 #+begin_src emacs-lisp
   (use-package racket-mode
     :ensure t
-    :delight "Rack"
     :hook ((racket-mode . paredit-mode)
            (racket-mode . rainbow-delimiters-mode)
            (racket-repl-mode . paredit-mode)
-           (racket-repl-mode . rainbow-delimiters-mode)))
+           (racket-repl-mode . rainbow-delimiters-mode))
+    :custom
+    (racket-repl-history-directory (expand-file-name "racket-mode"
+                                                     no-littering-var-directory)))
 #+end_src
 
 ** Haskell
