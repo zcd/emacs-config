@@ -312,7 +312,10 @@ For the mode-line, just show the project name.
     :ensure t
     :init (projectile-mode +1)
     :delight '(:eval (concat " " (projectile-project-name)))
-    :bind-keymap ("C-c p" . projectile-command-map))
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :custom
+    (compilation-buffer-name-function #'projectile-compilation-buffer-name)
+    (compilation-save-buffers-predicate #'projectile-current-project-buffer-p))
 #+end_src
 
 [[https://github.com/abo-abo/ace-window][ace-window]] for window navigation, paired with [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]].
