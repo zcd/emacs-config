@@ -292,14 +292,14 @@ edited files.
 #+begin_src emacs-lisp
   (use-package recentf
     :config
+    (dolist (exclude-dir `(,no-littering-var-directory
+                           ,no-littering-etc-directory))
+      (add-to-list 'recentf-exclude exclude-dir))
     (recentf-mode +1)
-    (setq recentf-max-menu-items 40)
-    (setq-default recentf-save-file
-                  (expand-file-name ".recentf"
-                                    user-emacs-directory)))
-
-  (add-to-list 'recentf-exclude no-littering-var-directory)
-  (add-to-list 'recentf-exclude no-littering-etc-directory)
+    :custom
+    (recentf-max-menu-items 40)
+    (recentf-save-file (expand-file-name ".recentf"
+                                         no-littering-var-directory)))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/Projectile][Projectile]] for guessing project boundaries. =git= repos are
