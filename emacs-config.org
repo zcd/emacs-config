@@ -471,21 +471,6 @@ Backups, lockfiles, and autosave.
     (create-lockfiles nil))
 #+end_src
 
-[[https://www.emacswiki.org/emacs/HippieExpand][hippie-expand]], tailored to lisp.
-
-#+begin_src emacs-lisp
-  (use-package hippie-expand
-    :ensure f
-    :bind (("M-/" . hippie-expand))
-    :config
-    (setq hippie-expand-try-functions-list
-          '(try-expand-dabbrev
-            try-expand-dabbrev-all-buffers
-            try-expand-dabbrev-from-kill
-            try-complete-lisp-symbol-partially
-            try-complete-lisp-symbol)))
-#+end_src
-
 Uncategorized obvious stuff.
 
 #+begin_src emacs-lisp
