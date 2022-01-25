@@ -449,10 +449,13 @@ Commenting lines out.
 Jump back in a file where last located.
 
 #+begin_src emacs-lisp
-  (require 'saveplace)
-  (setq-default save-place t)
-  (setq save-place-file (expand-file-name "places"
-                                          user-emacs-directory))
+  (use-package saveplace
+    :ensure nil
+    :config
+    (save-place-mode +1)
+    :custom
+    (save-place-file (expand-file-name "places"
+                                       no-littering-var-directory)))
 #+end_src
 
 Backups, lockfiles, and autosave.
