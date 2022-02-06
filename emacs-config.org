@@ -694,14 +694,30 @@ Along with an easy-template for literate clojure notebooks.
                  '("clj" . "src clojure :results silent :tangle generated/tangled.clj")))
 #+end_src
 
-*** Common Lisp (SBCL)
+*** Common Lisp
+
+Bind =C-x M-e= to run a lisp sexp from anywhere. Something like the CL
+analogue of =C-x e=.
 
 #+begin_src emacs-lisp
   (use-package slime
     :ensure t
     :bind ("C-x M-e" . slime-eval-last-expression)
     :config
-    (setq inferior-lisp-program "sbcl"))
+    (setq slime-lisp-implementations
+          '((sbcl ("/opt/homebrew/bin/sbcl") :coding-system utf-8-unix)))
+    (setq slime-default-lisp 'sbcl))
+#+end_src
+
+Slime's own =M-s= binding conflicts with paredit's own
+=paredit-splice-sexp= binding.
+
+#+begin_src emacs-lisp
+  (use-package slime-repl
+    :ensure nil
+    :after (slime)
+    :config
+    (unbind-key "M-s" slime-repl-mode-map))
 #+end_src
 
 Support =org-babel= for common lisp.
