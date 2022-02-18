@@ -319,7 +319,9 @@ For the mode-line, just show the project name.
     (compilation-save-buffers-predicate #'projectile-current-project-buffer-p))
 #+end_src
 
-[[https://github.com/abo-abo/ace-window][ace-window]] for window navigation, paired with [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]].
+- [[https://github.com/abo-abo/ace-window][ace-window]] for window navigation
+- =transpose-frame=
+- [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]]
 
 #+begin_src emacs-lisp
   (use-package ace-window
@@ -328,6 +330,9 @@ For the mode-line, just show the project name.
     :custom (aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
 
   (use-package buffer-move
+    :ensure t)
+
+  (use-package transpose-frame
     :ensure t)
 #+end_src
 
