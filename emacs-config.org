@@ -710,7 +710,7 @@ analogue of =C-x e=.
     :bind ("C-x M-e" . slime-eval-last-expression)
     :config
     (setq slime-lisp-implementations
-          '((sbcl ("/opt/homebrew/bin/sbcl") :coding-system utf-8-unix)))
+          '((sbcl ("sbcl") :coding-system utf-8-unix)))
     (setq slime-default-lisp 'sbcl))
 #+end_src
 
@@ -767,20 +767,6 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     (add-hook mode-hook #'turn-on-eldoc-mode))
 #+end_src
  
-** Racket
-
-#+begin_src emacs-lisp
-  (use-package racket-mode
-    :ensure t
-    :hook ((racket-mode . paredit-mode)
-           (racket-mode . rainbow-delimiters-mode)
-           (racket-repl-mode . paredit-mode)
-           (racket-repl-mode . rainbow-delimiters-mode))
-    :custom
-    (racket-repl-history-directory (expand-file-name "racket-mode"
-                                                     no-littering-var-directory)))
-#+end_src
-
 ** Haskell
 
 #+begin_src emacs-lisp
