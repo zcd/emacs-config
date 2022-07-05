@@ -408,6 +408,7 @@ functionality.
 #+begin_src emacs-lisp
   (use-package deft
     :ensure t
+    :after org
     :bind ("C-c o f" . deft)
     :custom
     (deft-directory me/org-home-dir)
