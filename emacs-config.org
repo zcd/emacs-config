@@ -237,12 +237,12 @@ Meanwhile only size if there are at least 20 lines in the buffer.
            '(100 . 0.618))
           (t
            '(0.5 . 0.5))))
-  
+
   (defun me/zoom--ignore-pred ()
     (< (count-lines (point-min)
                     (point-max))
        20))
-  
+
   (use-package zoom
     :ensure t
     :bind ("M-+" . zoom)
@@ -250,6 +250,27 @@ Meanwhile only size if there are at least 20 lines in the buffer.
     (zoom-mode +1)
     (zoom-size #'me/zoom--size-callback)
     (zoom-ignore-predicates '(me/zoom--ignore-pred)))
+#+end_src
+
+Prefer vertical splits in general. This still needs some work with
+horizontal splitting on large monitors as it behaves funny with the
+=zoom-mode= settings.
+
+#+begin_src emacs-lisp
+  (defun me/split-window-sensibly (&optional window)
+    "replacement `split-window-sensibly' function which prefers vertical splits"
+    (interactive)
+    (let ((window (or window (selected-window))))
+      (or (and (window-splittable-p window t)
+               (with-selected-window window
+                 (split-window-right)))
+          (and (window-splittable-p window)
+               (with-selected-window window
+                 (split-window-below))))))
+
+  (setq-default split-height-threshold 120)
+  (setq-default split-width-threshold 160)
+  (setq-default split-window-preferred-function #'me/split-window-sensibly)
 #+end_src
 
 Uncategorized obvious stuff
