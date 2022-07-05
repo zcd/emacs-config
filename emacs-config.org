@@ -825,14 +825,16 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 ** Rust
 
 #+begin_src emacs-lisp
-  (use-package cargo
-    :ensure t)
   (use-package rust-mode
     :ensure t
     :commands rust-format-buffer
     :bind (:map rust-mode-map
                 ("C-c <tab>" . rust-format-buffer))
     :hook ((rust-mode . cargo-minor-mode)))
+
+  (use-package cargo
+    :after rust-mode
+    :ensure t)
 #+end_src
 
 ** Golang
@@ -845,6 +847,13 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
                 ("C-c <tab>" . gofmt))
     :config
     (add-hook 'before-save-hook #'gofmt-before-save t))
+#+end_src
+
+** eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot
+    :hook ((rust-mode . eglot-ensure)))
 #+end_src
 
 * Version Control
