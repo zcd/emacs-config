@@ -831,7 +831,8 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :commands rust-format-buffer
     :bind (:map rust-mode-map
                 ("C-c <tab>" . rust-format-buffer))
-    :hook ((rust-mode . cargo-minor-mode)))
+    :hook ((rust-mode . cargo-minor-mode)
+           (rust-mode . subword-mode)))
 
   (use-package cargo
     :after rust-mode
