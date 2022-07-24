@@ -808,6 +808,12 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 ** C-family general settings
 
 #+begin_src emacs-lisp
+  (use-package c++-mode
+    :ensure nil
+    :hook ((c++-mode . subword-mode)))
+#+end_src
+
+#+begin_src emacs-lisp
   (use-package cmake-mode
     :ensure t)
 #+end_src
