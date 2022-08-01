@@ -6,6 +6,10 @@
 
 ** General
 
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+end_src
+
 This config file.
 
 #+begin_src emacs-lisp
@@ -21,6 +25,12 @@ This config file.
     "org-babel reload of the main startup config"
     (interactive)
     (org-babel-load-file me/emacs-config-file))
+#+end_src
+
+Shorten y/n prompt.
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
 ** Cleanliness
@@ -273,12 +283,6 @@ horizontal splitting on large monitors as it behaves funny with the
   (setq-default split-window-preferred-function #'me/split-window-sensibly)
 #+end_src
 
-Uncategorized obvious stuff
-
-#+begin_src emacs-lisp
-  (fset 'yes-or-no-p 'y-or-n-p)
-#+end_src
-
 ** Help bindings
 
 =helpful= for a richer version of =describe-=
@@ -496,12 +500,6 @@ Backups, lockfiles, and autosave.
                                  no-littering-var-directory))))
     (auto-save-default nil)
     (create-lockfiles nil))
-#+end_src
-
-Uncategorized obvious stuff.
-
-#+begin_src emacs-lisp
-  (set-default-coding-systems 'utf-8)
 #+end_src
 
 Define helper to refresh all open file buffers from disk (stolen from
