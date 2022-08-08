@@ -141,49 +141,30 @@ Modern support for line numbers.
 
 *** Fonts
 
-The system-agnostic check for font existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this blog
-post]].
+- The system-agnostic check for font existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this
+  blog post]].
+- Differentiator for server+terminal mode and GUI mode lifted from
+  [[https://www.reddit.com/r/emacs/comments/dwy299/comment/f7mzfdx/?utm_source=share&utm_medium=web2x&context=3][reddit]].
 
 #+begin_src emacs-lisp
-  (cl-defstruct font-settings
-    family
-    size-default
-    size-header-line
-    size-mode-line
-    size-smalltext
-    size-title)
-
-  (defvar me/font-config
-    (cond ((find-font (font-spec :name "Monaco"))
-           (make-font-settings :family "Monaco"
-                               :size-default 120
-                               :size-header-line 120
-                               :size-mode-line 110
-                               :size-smalltext 90
-                               :size-title 140))
-          ((find-font (font-spec :name "DejaVu Sans Mono"))
-           (make-font-settings :family "DejaVu Sans Mono"
-                               :size-default 140
-                               :size-header-line 140
-                               :size-mode-line 120
-                               :size-smalltext 110
-                               :size-title 160))))
-
   (defun me/set-frame-font (frame)
     (with-selected-frame frame
       (when window-system
-        (set-face-attribute 'default frame
-                            :font (font-settings-family me/font-config)
-                            :height (font-settings-size-default me/font-config))
-        (set-face-attribute 'fixed-pitch frame
-                            :font (font-settings-family me/font-config))
-        (set-face-attribute 'font-lock-comment-face frame
-                            :italic t)
-        (set-face-attribute 'font-lock-doc-face frame
-                            :italic t))))
+        (let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
+                                 "Monaco-12")
+                                ((find-font (font-spec :name "DejaVu Sans Mono"))
+                                 "DejaVu Sans Mono-14")
+                                ((find-font (font-spec :name "Courier"))
+                                 "Courier-14")))
+              (variable-font (cond ((find-font (font-spec :name "Helvetica"))
+                                    "Helvetica-15")
+                                   ((find-font (font-spec :name "Arial"))
+                                    "Arial-15"))))
+          (set-face-attribute 'default frame :font fixed-font)
+          (set-face-attribute 'fixed-pitch frame :font fixed-font)
+          (set-face-attribute 'variable-pitch frame :font variable-font)))))
 
-  (add-hook 'after-make-frame-functions
-            #'me/set-frame-font)
+  (add-hook 'after-make-frame-functions #'me/set-frame-font)
 #+end_src
 
 *** Theming
