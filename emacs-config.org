@@ -182,30 +182,6 @@ Kill ring/clipboard settings.
     :bind ("C-c y" . browse-kill-ring))
 #+end_src
 
-Indentation stuff (No tabs).
-
-#+begin_src emacs-lisp
-  (defun me/die-tabs ()
-    "Replace all tabs with 2 spaces in current buffer"
-    (interactive)
-    (set-variable 'tab-width 2)
-    (mark-whole-buffer)
-    (untabify (region-beginning) (region-end))
-    (keyboard-quit))
-  (setq-default indent-tabs-mode nil)
-  (setq electric-indent-mode nil)
-#+end_src
-
-Commenting lines out.
-
-#+begin_src emacs-lisp
-  (defun me/toggle-comment-on-line ()
-    "comment or uncomment current line"
-    (interactive)
-    (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
-  (global-set-key (kbd "C-;") 'toggle-comment-on-line)
-#+end_src
-
 Jump back in a file where last located.
 
 #+begin_src emacs-lisp
