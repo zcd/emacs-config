@@ -127,25 +127,6 @@ Other config files (and their outputs) should live in a quieter place.
     (midnight-mode +1))
 #+end_src
 
-** Treemacs
-
-It's nice to have treemacs available when I want it.
-
-#+begin_src emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :bind ("C-x t t" . treemacs))
-
-  (use-package treemacs-projectile
-    :ensure t
-    :after (treemacs projectile))
-
-  (use-package treemacs-icons-dired
-    :after (dired)
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
-#+end_src
-
 ** Mode line
 
 [[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the per-mode text on the mode line.
