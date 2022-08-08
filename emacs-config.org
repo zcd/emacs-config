@@ -1,6 +1,6 @@
-#+TITLE: emacs-config
-#+AUTHOR: zcd
-#+PROPERTY: header-args :results silent
+#+title: emacs-config
+#+author: zcd
+#+property: header-args :results silent
 
 * Base Settings
 
@@ -432,7 +432,7 @@ functionality.
     :ensure t
     :delight
     :bind (("C-c r" . #'ivy-resume)
-           ("C-x B" . #'ivy-switch-buffer-other-window))
+	   ("C-x B" . #'ivy-switch-buffer-other-window))
     :custom
     (ivy-count-format "(%d/%d) ")
     (ivy-use-virtual-buffers t)
@@ -490,15 +490,15 @@ functionality.
   (use-package org
     :ensure t
     :bind (("C-c o l" . org-store-link)
-           ("C-c o a" . org-agenda)
-           ("C-c o c" . org-capture)
-           ("C-c o b" . org-switchb)
-           ("C-c o o" . (lambda ()
-                          (interactive)
-                          (find-file org-default-notes-file))))
+	   ("C-c o a" . org-agenda)
+	   ("C-c o c" . org-capture)
+	   ("C-c o b" . org-switchb)
+	   ("C-c o o" . (lambda ()
+			  (interactive)
+			  (find-file org-default-notes-file))))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
-                                                             me/org-home-dir)))
+							     me/org-home-dir)))
     (org-agenda-files (list org-default-notes-file))
     (org-agenda-todo-ignore-scheduled 'future)
     (org-hide-emphasis-markers t)
@@ -509,7 +509,7 @@ functionality.
     :ensure nil
     :custom
     (org-id-locations-file (expand-file-name ".org-id-locations"
-                                             no-littering-var-directory)))
+					     no-littering-var-directory)))
 #+end_src
 
 =org-pomodoro= integration with =org-clock-in= is a nifty feature for time
@@ -865,7 +865,6 @@ necessarily with the =.gpg= extensions)
     :config
     (org-crypt-use-before-save-magic))
 #+end_src
-
 
 * Final Overrides
 
