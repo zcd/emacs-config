@@ -431,8 +431,8 @@ functionality.
   (use-package ivy
     :ensure t
     :delight
-    :bind (("C-c r" . ivy-resume)
-           ("C-x B" . ivy-switch-buffer-other-window))
+    :bind (("C-c r" . #'ivy-resume)
+           ("C-x B" . #'ivy-switch-buffer-other-window))
     :custom
     (ivy-count-format "(%d/%d) ")
     (ivy-use-virtual-buffers t)
