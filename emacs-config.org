@@ -194,7 +194,9 @@ Jump back in a file where last located.
                                        no-littering-var-directory)))
 #+end_src
 
-Backups, lockfiles, and autosave.
+- Backups under the standard =/var/= directory defined by =no-littering=
+- Disable lockfiles
+- Disable autosave
 
 #+begin_src emacs-lisp
   (use-package files
