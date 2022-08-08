@@ -33,97 +33,6 @@ Shorten y/n prompt.
   (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
-** Cleanliness
-
-Other config files (and their outputs) should live in a quieter place.
-
-#+begin_src emacs-lisp
-  (use-package no-littering
-    :ensure t)
-#+end_src
-
-Initial screen.
-
-#+begin_src emacs-lisp
-  (setq-default inhibit-startup-screen t
-                initial-scratch-message "")
-#+end_src
-
-=garbage-collect= on focus-out, Emacs /should/ feel snappier.
-
-#+begin_src emacs-lisp
-  (add-hook 'focus-out-hook #'garbage-collect)
-#+end_src
-
-=midnight-mode= settings for automatic buffer cleanup
-
-#+begin_src emacs-lisp
-  (use-package midnight
-    :config
-    (dolist (buffer-re '("\\*helpful.*\\*"
-                         "magit.*"))
-      (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
-    (midnight-mode +1))
-#+end_src
-
-** Interface
-
-Pretty icons
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons
-    :ensure t
-    :if (display-graphic-p))
-  
-  (use-package all-the-icons-dired
-    :ensure t
-    :after (all-the-icons dired))
-#+end_src
-
-*** Treemacs
-
-It's nice to have treemacs available when I want it.
-
-#+begin_src emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :bind ("C-x t t" . treemacs))
-
-  (use-package treemacs-projectile
-    :ensure t
-    :after (treemacs projectile))
-
-  (use-package treemacs-icons-dired
-    :after (dired)
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
-#+end_src
-
-*** Mode line
-
-[[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the per-mode text on the mode line.
-
-#+begin_src emacs-lisp
-  (use-package delight
-    :ensure t)
-#+end_src
-
-[[https://github.com/seagle0128/doom-modeline][doom-modeline]] for pretty mode-line. Be sure to first run =M-x
-all-the-icons-install-fonts=.
-
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :custom
-    (doom-modeline-buffer-file-name-style 'auto)
-    (doom-modeline-height 20)
-    (doom-modeline-major-mode-color-icon t)
-    :config
-    (doom-modeline-mode +1))
-#+end_src
-
-*** Visuals
-
 Modern support for line numbers.
 
 #+begin_src emacs-lisp
@@ -139,7 +48,20 @@ Modern support for line numbers.
   (menu-bar-mode 0)
 #+end_src
 
-*** Fonts
+Initial screen.
+
+#+begin_src emacs-lisp
+  (setq-default inhibit-startup-screen t
+                initial-scratch-message "")
+#+end_src
+
+=garbage-collect= on focus-out, Emacs /should/ feel snappier.
+
+#+begin_src emacs-lisp
+  (add-hook 'focus-out-hook #'garbage-collect)
+#+end_src
+
+** Fonts
 
 - The system-agnostic check for font existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this
   blog post]].
@@ -167,7 +89,196 @@ Modern support for line numbers.
   (add-hook 'after-make-frame-functions #'me/set-frame-font)
 #+end_src
 
-*** Theming
+This is used for =doom-modeline= icons
+
+#+begin_src emacs-lisp :tangle no
+  (all-the-icons-install-fonts)
+#+end_src
+
+Pretty icons
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :if (display-graphic-p))
+  
+  (use-package all-the-icons-dired
+    :ensure t
+    :after (all-the-icons dired))
+#+end_src
+
+** Runtime Files
+
+Other config files (and their outputs) should live in a quieter place.
+
+#+begin_src emacs-lisp
+  (use-package no-littering
+    :ensure t)
+#+end_src
+
+=midnight-mode= settings for automatic buffer cleanup
+
+#+begin_src emacs-lisp
+  (use-package midnight
+    :config
+    (dolist (buffer-re '("\\*helpful.*\\*"
+                         "magit.*"))
+      (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
+    (midnight-mode +1))
+#+end_src
+
+** Treemacs
+
+It's nice to have treemacs available when I want it.
+
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :bind ("C-x t t" . treemacs))
+
+  (use-package treemacs-projectile
+    :ensure t
+    :after (treemacs projectile))
+
+  (use-package treemacs-icons-dired
+    :after (dired)
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+#+end_src
+
+** Mode line
+
+[[https://www.emacswiki.org/emacs/DelightedModes][Delight]] customizes the per-mode text on the mode line.
+
+#+begin_src emacs-lisp
+  (use-package delight
+    :ensure t)
+#+end_src
+
+[[https://github.com/seagle0128/doom-modeline][doom-modeline]] for pretty mode-line.
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :custom
+    (doom-modeline-buffer-file-name-style 'auto)
+    (doom-modeline-height 20)
+    (doom-modeline-major-mode-color-icon t)
+    :config
+    (doom-modeline-mode +1))
+#+end_src
+
+** Text Editing
+
+End sentences from a single period, so that =M-e= behaves appropriately
+in my writing.
+
+#+begin_src emacs-lisp
+  (setq sentence-end-double-space nil)
+#+end_src
+
+Highlight matching parens and current line.
+
+#+begin_src emacs-lisp
+  (show-paren-mode +1)
+  (global-hl-line-mode +1)
+#+end_src
+
+Kill ring/clipboard settings.
+
+#+begin_src emacs-lisp
+  (setq-default select-enable-clipboard t
+                select-enable-primary t
+                save-interprogram-paste-before-kill t
+                mouse-yank-at-point t)
+
+  (defun me/kill-ring--clear ()
+    (interactive)
+    (setq kill-ring '()))
+
+  (use-package browse-kill-ring
+    :ensure t
+    :bind ("C-c y" . browse-kill-ring))
+#+end_src
+
+Indentation stuff (No tabs).
+
+#+begin_src emacs-lisp
+  (defun me/die-tabs ()
+    "Replace all tabs with 2 spaces in current buffer"
+    (interactive)
+    (set-variable 'tab-width 2)
+    (mark-whole-buffer)
+    (untabify (region-beginning) (region-end))
+    (keyboard-quit))
+  (setq-default indent-tabs-mode nil)
+  (setq electric-indent-mode nil)
+#+end_src
+
+Commenting lines out.
+
+#+begin_src emacs-lisp
+  (defun me/toggle-comment-on-line ()
+    "comment or uncomment current line"
+    (interactive)
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+  (global-set-key (kbd "C-;") 'toggle-comment-on-line)
+#+end_src
+
+Jump back in a file where last located.
+
+#+begin_src emacs-lisp
+  (use-package saveplace
+    :ensure nil
+    :config
+    (save-place-mode +1)
+    :custom
+    (save-place-file (expand-file-name "places"
+                                       no-littering-var-directory)))
+#+end_src
+
+Backups, lockfiles, and autosave.
+
+#+begin_src emacs-lisp
+  (use-package files
+    :ensure nil
+    :custom
+    (backup-directory-alist
+     `(("." . ,(expand-file-name "backups/"
+                                 no-littering-var-directory))))
+    (auto-save-default nil)
+    (create-lockfiles nil))
+#+end_src
+
+Define helper to refresh all open file buffers from disk (stolen from
+[[https://emacs.stackexchange.com/questions/24459/revert-all-open-buffers-and-ignore-errors][StackExchange]]).
+
+#+begin_src emacs-lisp
+  (defun me/revert-all-fbuffers ()
+    "Refresh all open file buffers without confirmation.
+  Buffers in modified (not yet saved) state in emacs will not be reverted. They
+  will be reverted though if they were modified outside emacs.
+  Buffers visiting files which do not exist any more or are no longer readable
+  will be killed."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (let ((filename (buffer-file-name buf)))
+        ;; Revert only buffers containing files, which are not modified;
+        ;; do not try to revert non-file buffers like *Messages*.
+        (when (and filename
+                 (not (buffer-modified-p buf)))
+          (if (file-readable-p filename)
+              ;; If the file exists and is readable, revert the buffer.
+              (with-current-buffer buf
+                (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+            ;; Otherwise, kill the buffer.
+            (let (kill-buffer-query-functions) ; No query done when killing buffer
+              (kill-buffer buf)
+              (message "Killed non-existing/unreadable file buffer: %s" filename))))))
+    (message "Finished reverting buffers containing unmodified files."))
+#+end_src
+
+** Theming
 
 - During the day, use [[https://github.com/john2x/plan9-theme.el][plan9]].
 - When it gets dark, use [[https://github.com/bbatsov/zenburn-emacs][zenburn]].
@@ -196,7 +307,7 @@ themes.
   (circadian-enable-theme 'zenburn)
 #+end_src
 
-=ibuffer=
+** ibuffer
 
 #+begin_src emacs-lisp
   (use-package ibuffer
@@ -210,6 +321,8 @@ themes.
     :config
     (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root))
 #+end_src
+
+** Buffer sizing
 
 =zoom-mode= to auto-resize buffers. These are the following configured
 options:
@@ -399,116 +512,6 @@ functionality.
     (deft-directory me/org-home-dir)
     (deft-extensions '("org"))
     (deft-recursive t))
-#+end_src
-
-** Editing
-
-End sentences from a single period, so that =M-e= behaves appropriately
-in my writing.
-
-#+begin_src emacs-lisp
-  (setq sentence-end-double-space nil)
-#+end_src
-
-Highlight matching parens and current line.
-
-#+begin_src emacs-lisp
-  (show-paren-mode +1)
-  (global-hl-line-mode +1)
-#+end_src
-
-Kill ring/clipboard settings.
-
-#+begin_src emacs-lisp
-  (setq-default select-enable-clipboard t
-                select-enable-primary t
-                save-interprogram-paste-before-kill t
-                mouse-yank-at-point t)
-
-  (defun me/kill-ring--clear ()
-    (interactive)
-    (setq kill-ring '()))
-
-  (use-package browse-kill-ring
-    :ensure t
-    :bind ("C-c y" . browse-kill-ring))
-#+end_src
-
-Indentation stuff (No tabs).
-
-#+begin_src emacs-lisp
-  (defun me/die-tabs ()
-    "Replace all tabs with 2 spaces in current buffer"
-    (interactive)
-    (set-variable 'tab-width 2)
-    (mark-whole-buffer)
-    (untabify (region-beginning) (region-end))
-    (keyboard-quit))
-  (setq-default indent-tabs-mode nil)
-  (setq electric-indent-mode nil)
-#+end_src
-
-Commenting lines out.
-
-#+begin_src emacs-lisp
-  (defun me/toggle-comment-on-line ()
-    "comment or uncomment current line"
-    (interactive)
-    (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
-  (global-set-key (kbd "C-;") 'toggle-comment-on-line)
-#+end_src
-
-Jump back in a file where last located.
-
-#+begin_src emacs-lisp
-  (use-package saveplace
-    :ensure nil
-    :config
-    (save-place-mode +1)
-    :custom
-    (save-place-file (expand-file-name "places"
-                                       no-littering-var-directory)))
-#+end_src
-
-Backups, lockfiles, and autosave.
-
-#+begin_src emacs-lisp
-  (use-package files
-    :ensure nil
-    :custom
-    (backup-directory-alist
-     `(("." . ,(expand-file-name "backups/"
-                                 no-littering-var-directory))))
-    (auto-save-default nil)
-    (create-lockfiles nil))
-#+end_src
-
-Define helper to refresh all open file buffers from disk (stolen from
-[[https://emacs.stackexchange.com/questions/24459/revert-all-open-buffers-and-ignore-errors][StackExchange]]).
-
-#+begin_src emacs-lisp
-  (defun me/revert-all-fbuffers ()
-    "Refresh all open file buffers without confirmation.
-  Buffers in modified (not yet saved) state in emacs will not be reverted. They
-  will be reverted though if they were modified outside emacs.
-  Buffers visiting files which do not exist any more or are no longer readable
-  will be killed."
-    (interactive)
-    (dolist (buf (buffer-list))
-      (let ((filename (buffer-file-name buf)))
-        ;; Revert only buffers containing files, which are not modified;
-        ;; do not try to revert non-file buffers like *Messages*.
-        (when (and filename
-                 (not (buffer-modified-p buf)))
-          (if (file-readable-p filename)
-              ;; If the file exists and is readable, revert the buffer.
-              (with-current-buffer buf
-                (revert-buffer :ignore-auto :noconfirm :preserve-modes))
-            ;; Otherwise, kill the buffer.
-            (let (kill-buffer-query-functions) ; No query done when killing buffer
-              (kill-buffer buf)
-              (message "Killed non-existing/unreadable file buffer: %s" filename))))))
-    (message "Finished reverting buffers containing unmodified files."))
 #+end_src
 
 * =org-mode= settings
