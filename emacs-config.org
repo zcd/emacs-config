@@ -364,20 +364,22 @@ horizontal splitting on large monitors as it behaves funny with the
 
 ** Navigation
 
-Turn on =recentf-fmode= (recent file mode) to quickly find recently
+Turn on =recentf-mode= (recent file mode) to quickly find recently
 edited files.
 
 #+begin_src emacs-lisp
   (use-package recentf
     :config
     (dolist (exclude-dir `(,no-littering-var-directory
-                           ,no-littering-etc-directory))
+			   ,no-littering-etc-directory))
       (add-to-list 'recentf-exclude exclude-dir))
     (recentf-mode +1)
+    (run-at-time nil (* 60 60) #'recentf-save-list)  ; save every hour
     :custom
+    (recentf-auto-cleanup "00:00am")
     (recentf-max-menu-items 40)
     (recentf-save-file (expand-file-name ".recentf"
-                                         no-littering-var-directory)))
+					 no-littering-var-directory)))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/Projectile][Projectile]] for guessing project boundaries. =git= repos are
