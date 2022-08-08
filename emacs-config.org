@@ -431,8 +431,8 @@ functionality.
   (use-package ivy
     :ensure t
     :delight
-    :bind (("C-c r" . 'ivy-resume)
-           ("C-x B" . 'ivy-switch-buffer-other-window))
+    :bind (("C-c r" . ivy-resume)
+           ("C-x B" . ivy-switch-buffer-other-window))
     :custom
     (ivy-count-format "(%d/%d) ")
     (ivy-use-virtual-buffers t)
@@ -556,7 +556,7 @@ With =org-mode= v9.2, template expansion is now done via
 
 #+begin_src emacs-lisp
   (org-defkey org-mode-map
-              (kbd "C-c C-,") 'org-insert-structure-template)
+              (kbd "C-c C-,") #'org-insert-structure-template)
 #+end_src
 
 ** Capture templates
