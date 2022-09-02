@@ -499,7 +499,7 @@ functionality.
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
 							     me/org-home-dir)))
-    (org-agenda-files (list org-default-notes-file))
+    (org-agenda-files `(,me/org-home-dir))
     (org-agenda-todo-ignore-scheduled 'future)
     (org-hide-emphasis-markers t)
     (org-refile-targets '((org-agenda-files :maxlevel . 3))))
