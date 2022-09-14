@@ -581,6 +581,26 @@ I write a lot of =emacs-lisp= via =org-mode=
                '("el" . "src emacs-lisp"))
 #+end_src
 
+Define a helper for personal worklogging
+
+#+begin_src emacs-lisp
+  (defun me/now (arg)
+    "Utility function for inserting org-headed timestamps.
+  An optional prefix arg will decide the nesting depth of the
+  header."
+    (interactive "P")
+    (let ((nesting (or current-prefix-arg
+		       2)))
+      (progn
+	(dotimes (_ nesting)
+	  (insert "*"))
+	(when (> nesting 0)
+	    (insert " "))))
+    (let ((current-prefix-arg '(16)))
+      (call-interactively #'org-time-stamp-inactive))
+    (newline))
+#+end_src
+
 ** =org-roam= experimentation
 
 #+begin_src emacs-lisp
