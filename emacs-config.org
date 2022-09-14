@@ -475,6 +475,17 @@ functionality.
     (deft-recursive t))
 #+end_src
 
+** Shell
+
+#+begin_src emacs-lisp
+  (defun me/--disable-line-numbers ()
+    (display-line-numbers-mode 0))
+
+  (use-package shell
+    :config (add-hook 'shell-mode-hook
+		      #'me/--disable-line-numbers))
+#+end_src
+
 * =org-mode= settings
 
 #+begin_src emacs-lisp
