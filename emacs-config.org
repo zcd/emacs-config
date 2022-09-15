@@ -634,7 +634,7 @@ Define a helper for personal worklogging
     (org-roam-db-autosync-mode))
 
   (use-package org-roam-dailies
-    :config
+    :init
     (add-to-list 'org-agenda-files
 		 (expand-file-name org-roam-dailies-directory
 				   org-roam-directory)))
