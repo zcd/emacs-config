@@ -617,6 +617,8 @@ Define a helper for personal worklogging
 #+begin_src emacs-lisp
   (use-package org-roam
     :ensure t
+    :after (org)
+    :demand t
     :init
     (setq org-roam-v2-ack t)
     :custom
@@ -636,7 +638,8 @@ Define a helper for personal worklogging
   (use-package org-roam-dailies
     :ensure nil
     :after (org-roam)
-    :init
+    :demand t
+    :config
     (add-to-list 'org-agenda-files
 		 (expand-file-name org-roam-dailies-directory
 				   org-roam-directory)))
