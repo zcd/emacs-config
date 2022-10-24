@@ -630,8 +630,7 @@ Define a helper for personal worklogging
 	   ("C-c n i" . org-roam-node-insert)
 	   ("C-c n c" . org-roam-capture)
 	   ("C-c n t" . org-roam-tag-add)
-	   ("C-c n T" . org-roam-tag-remove)
-	   ("C-c n d" . org-roam-dailies-capture-today))
+	   ("C-c n T" . org-roam-tag-remove))
     :config
     (org-roam-db-autosync-mode))
 
@@ -639,6 +638,9 @@ Define a helper for personal worklogging
     :ensure nil
     :after (org-roam)
     :demand t
+    :bind (("C-c n n" . org-roam-dailies-goto-next-note)
+	   ("C-c n p" . org-roam-dailies-goto-previous-note)	 
+	   ("C-c n d" . org-roam-dailies-capture-today))
     :config
     (add-to-list 'org-agenda-files
 		 (expand-file-name org-roam-dailies-directory
