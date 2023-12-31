@@ -157,7 +157,8 @@ Other config files (and their outputs) should live in a quieter place.
     :ensure t)
 #+end_src
 
-=midnight-mode= settings for automatic buffer cleanup
+=midnight-mode= settings for automatic buffer cleanup. Midnight mode
+runs a scheduled job oeriodically.
 
 #+begin_src emacs-lisp
   (use-package midnight
@@ -525,6 +526,21 @@ functionality.
   (use-package shell
     :config (add-hook 'shell-mode-hook
 		      #'me/--disable-line-numbers))
+#+end_src
+
+For =eshell=
+
+#+begin_src emacs-lisp
+  (use-package eshell
+    :config (add-hook 'eshell-mode-hook
+		      #'me/--disable-line-numbers))
+
+  (defun eshell/clear ()
+    "Clear the eshell buffer."
+    (interactive)
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (eshell-send-input)))
 #+end_src
 
 ** GPT
