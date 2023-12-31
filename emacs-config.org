@@ -61,6 +61,47 @@ Initial screen.
   (add-hook 'focus-out-hook #'garbage-collect)
 #+end_src
 
+** Encryption
+
+EasyPG support for =.gpg= extension files.
+
+#+begin_src emacs-lisp
+  (use-package epa-file
+    :config
+    (epa-file-enable))
+#+end_src
+
+=org-crypt= for heading-specific encryption in =org-mode= buffers (not
+necessarily with the =.gpg= extensions)
+
+#+begin_src  emacs-lisp
+  (use-package org-crypt
+    :ensure nil
+    :after org
+    :config
+    (org-crypt-use-before-save-magic))
+#+end_src
+
+Use =loopback= pinentry for redirecting queries back to Emacs. This
+allows passphrase entry via minibuffer.
+
+#+begin_src emacs-lisp
+  (use-package epg-config
+    :ensure nil
+    :custom
+    (epg-pinentry-mode 'loopback))
+#+end_src
+
+This requires a line =allow-loopback-pinentry= in =~/.gnupg/gpg-agent.conf=.
+
+#+begin_src shell
+  if grep -qxF 'allow-loopback-pinentry' ~/.gnupg/gpg-agent.conf; then
+    echo "allow-loopback-pinentry already exists"
+  else
+    echo 'allow-loopback-pinentry' >> ~/.gnupg/gpg-agent.conf && gpgconf --reload gpg-agent
+  fi
+#+end_src
+
 ** Fonts
 
 - The system-agnostic check for font existence is lifted from [[https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/][this
@@ -486,6 +527,17 @@ functionality.
 		      #'me/--disable-line-numbers))
 #+end_src
 
+** GPT
+
+#+begin_src emacs-lisp
+  (use-package chatgpt-shell
+    :ensure t
+    :custom
+    ((chatgpt-shell-openai-key
+      (lambda ()
+	(auth-source-pass-get 'secret "openai-key")))))
+#+end_src
+
 * =org-mode= settings
 
 #+begin_src emacs-lisp
@@ -645,6 +697,43 @@ Define a helper for personal worklogging
     (add-to-list 'org-agenda-files
 		 (expand-file-name org-roam-dailies-directory
 				   org-roam-directory)))
+#+end_src
+
+** =ebib=, bibtex, etc.
+
+Technically not part of org mode, but I'm trying this out in context
+of org-roam.
+
+#+begin_src emacs-lisp
+  (use-package oc
+    :after (org bibtex-completion)
+    :custom
+    (org-cite-global-bibliography (list (expand-file-name "references.bib"
+							  me/org-home-dir))))
+
+  (use-package citar
+    :ensure t
+    :custom
+    (org-cite-global-bibliography (list (expand-file-name "references.bib"
+							  me/org-home-dir)))
+    (citar-bibliography org-cite-global-bibliography)
+    (org-cite-activate-processor 'citar)
+    (org-cite-follow-processor 'citar)
+    (org-cite-insert-processor 'citar))
+
+  (use-package citar-org-roam
+    :ensure t
+    :after (citar org-roam)
+    :config (citar-org-roam-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ebib
+    :ensure t
+    :after ivy-bibtex
+    :custom
+    (ebib-preload-bib-files (list (expand-file-name "references.bib"
+						    me/org-home-dir))))
 #+end_src
 
 * Languages
@@ -886,27 +975,6 @@ In order to enable this, insert the following snippet in a
                                          (current-time-string)))
                 (gac-debounce-interval . 3600)  ; wait 1h between auto-commits
                 (eval git-auto-commit-mode +1))))
-#+end_src
-
-* Encryption
-
-EasyPG support for =.gpg= extension files.
-
-#+begin_src emacs-lisp
-  (use-package epa-file
-    :config
-    (epa-file-enable))
-#+end_src
-
-=org-crypt= for heading-specific encryption in =org-mode= buffers (not
-necessarily with the =.gpg= extensions)
-
-#+begin_src emacs-lisp
-  (use-package org-crypt
-    :ensure nil
-    :after org
-    :config
-    (org-crypt-use-before-save-magic))
 #+end_src
 
 * Final Overrides
