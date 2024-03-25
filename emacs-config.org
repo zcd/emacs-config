@@ -113,21 +113,32 @@ This requires a line =allow-loopback-pinentry= in =~/.gnupg/gpg-agent.conf=.
   (defun me/set-frame-font (frame)
     (with-selected-frame frame
       (when window-system
-        (let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
-                                 "Monaco-12")
-                                ((find-font (font-spec :name "DejaVu Sans Mono"))
-                                 "DejaVu Sans Mono-14")
-                                ((find-font (font-spec :name "Courier"))
-                                 "Courier-14")))
-              (variable-font (cond ((find-font (font-spec :name "Helvetica"))
-                                    "Helvetica-15")
-                                   ((find-font (font-spec :name "Arial"))
-                                    "Arial-15"))))
-          (set-face-attribute 'default frame :font fixed-font)
-          (set-face-attribute 'fixed-pitch frame :font fixed-font)
-          (set-face-attribute 'variable-pitch frame :font variable-font)))))
+	(let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
+				 "Monaco-12")
+				((find-font (font-spec :name "DejaVu Sans Mono"))
+				 "DejaVu Sans Mono-14")
+				((find-font (font-spec :name "Courier"))
+				 "Courier-14")))
+	      (variable-font (cond ((find-font (font-spec :name "Helvetica"))
+				    "Helvetica-15")
+				   ((find-font (font-spec :name "Arial"))
+				    "Arial-15"))))
+	  (set-face-attribute 'default frame :font fixed-font)
+	  (set-face-attribute 'fixed-pitch frame :font fixed-font)
+	  (set-face-attribute 'variable-pitch frame :font variable-font)))))
 
   (add-hook 'after-make-frame-functions #'me/set-frame-font)
+#+end_src
+
+Utility function for resizing fonts. Useful when using a laptop in
+docked mode.
+
+#+begin_src emacs-lisp
+  (defun me/resize-fonts (arg)
+    (interactive "p")
+    (set-face-attribute 'default nil :family 
+			(face-attribute 'default :family)
+			:height (* 10 arg)))
 #+end_src
 
 This is used for =doom-modeline= icons
@@ -545,6 +556,8 @@ For =eshell=
 
 ** GPT
 
+Shell by [[https://github.com/xenodium][xenodium]]
+
 #+begin_src emacs-lisp
   (use-package chatgpt-shell
     :ensure t
@@ -552,6 +565,17 @@ For =eshell=
     ((chatgpt-shell-openai-key
       (lambda ()
 	(auth-source-pass-get 'secret "openai-key")))))
+#+end_src
+
+Tool by [[https://github.com/karthinks][karthinks]]
+
+#+begin_src emacs-lisp
+  (use-package gptel
+    :ensure t
+    :custom
+    (gptel-api-key 
+     (lambda ()
+       (auth-source-pass-get 'secret "openai-key"))))
 #+end_src
 
 * =org-mode= settings
@@ -713,6 +737,14 @@ Define a helper for personal worklogging
     (add-to-list 'org-agenda-files
 		 (expand-file-name org-roam-dailies-directory
 				   org-roam-directory)))
+#+end_src
+
+Also include a UI
+
+#+begin_src emacs-lisp
+  (use-package org-roam-ui
+    :ensure t
+    :after (org-roam))
 #+end_src
 
 ** =ebib=, bibtex, etc.
