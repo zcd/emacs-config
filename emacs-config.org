@@ -169,7 +169,7 @@ Other config files (and their outputs) should live in a quieter place.
 #+end_src
 
 =midnight-mode= settings for automatic buffer cleanup. Midnight mode
-runs a scheduled job oeriodically.
+runs a scheduled job periodically.
 
 #+begin_src emacs-lisp
   (use-package midnight
