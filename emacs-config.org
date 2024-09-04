@@ -141,22 +141,18 @@ docked mode.
 			:height (* 10 arg)))
 #+end_src
 
-This is used for =doom-modeline= icons
-
-#+begin_src emacs-lisp :tangle no
-  (all-the-icons-install-fonts)
-#+end_src
-
 Pretty icons
 
 #+begin_src emacs-lisp
-  (use-package all-the-icons
+  (use-package nerd-icons
     :ensure t
     :if (display-graphic-p))
-  
-  (use-package all-the-icons-dired
-    :ensure t
-    :after (all-the-icons dired))
+#+end_src
+
+This is used for =doom-modeline= icons
+
+#+begin_src emacs-lisp :tangle no
+  (nerd-icons-install-fonts)
 #+end_src
 
 ** Runtime Files
