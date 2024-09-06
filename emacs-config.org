@@ -631,7 +631,16 @@ View $\LaTeX$.
 
 #+begin_src emacs-lisp
   (use-package pdf-tools
-    :ensure t)
+    :ensure t
+    :init (setq-default pdf-view-display-size 'fit-page)
+    :config (add-hook 'pdf-view-mode-hook
+		      #'me/--disable-line-numbers))
+#+end_src
+
+The following is needed to run the above properly.
+
+#+begin_src emacs-lisp :tangle no
+  (pdf-tools-install)
 #+end_src
 
 Some =org=-related utilities.
