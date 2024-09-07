@@ -571,7 +571,8 @@ Tool by [[https://github.com/karthinks][karthinks]]
     :custom
     (gptel-api-key 
      (lambda ()
-       (auth-source-pass-get 'secret "openai-key"))))
+       (auth-source-pass-get 'secret "openai-key")))
+    (gptel-default-mode 'org-mode))
 #+end_src
 
 * =org-mode= settings
