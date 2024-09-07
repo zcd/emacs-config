@@ -777,6 +777,7 @@ of org-roam.
 
   (use-package citar-org-roam
     :ensure t
+    :delight
     :after (citar org-roam)
     :config (citar-org-roam-mode))
 #+end_src
