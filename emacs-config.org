@@ -634,7 +634,8 @@ View $\LaTeX$.
     :ensure t
     :init (setq-default pdf-view-display-size 'fit-page)
     :config (add-hook 'pdf-view-mode-hook
-		      #'me/--disable-line-numbers))
+		      #'me/--disable-line-numbers)
+    :mode ("\\.pdf\\'" . pdf-view-mode))
 #+end_src
 
 The following is needed to run the above properly.
