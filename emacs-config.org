@@ -135,10 +135,15 @@ docked mode.
 
 #+begin_src emacs-lisp
   (defun me/resize-fonts (arg)
+    "Changes current font size.
+  Provide a numeric <C-u> prefix corresponding to the font size"
     (interactive "p")
-    (set-face-attribute 'default nil :family 
-			(face-attribute 'default :family)
-			:height (* 10 arg)))
+    (when (or (and (< 10 arg) (< arg 20))
+	      (yes-or-no-p (format "Are you sure you want to resize font to %d?" 
+				   arg)))
+      (set-face-attribute 'default nil :family 
+			  (face-attribute 'default :family)
+			  :height (* 10 arg))))
 #+end_src
 
 Pretty icons
