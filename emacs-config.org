@@ -223,11 +223,12 @@ Kill ring/clipboard settings.
 
 #+begin_src emacs-lisp
   (setq-default select-enable-clipboard t
-                select-enable-primary t
-                save-interprogram-paste-before-kill t
-                mouse-yank-at-point t)
+		select-enable-primary t
+		save-interprogram-paste-before-kill t
+		mouse-yank-at-point t)
 
   (defun me/kill-ring--clear ()
+    "Clear the current kill-ring"
     (interactive)
     (setq kill-ring '()))
 
