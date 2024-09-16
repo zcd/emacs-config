@@ -530,6 +530,26 @@ Make things pretty with icons
     (marginalia-mode +1))
 #+end_src
 
+Use consult for completion
+
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t
+    :bind (;; A recursive grep
+	   ("M-s M-g" . consult-grep)
+	   ;; Search for files names recursively
+	   ("M-s M-f" . consult-find)
+	   ;; Search through the outline (headings) of the file
+	   ("M-s M-o" . consult-outline)
+	   ;; Search the current buffer
+	   ("M-s M-l" . consult-line)
+	   ;; Search the current or other buffers
+	   ("M-s M-m" . consult-line-multi)
+	   ;; Switch to another buffer, or bookmarked file, or recently
+	   ;; opened file.
+	   ("M-s M-b" . consult-buffer)))
+#+end_src
+
 ** Shell
 
 #+begin_src emacs-lisp
