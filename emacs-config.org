@@ -514,6 +514,15 @@ VERTical Interactive COmpletion
     (vertico-mode +1))
 #+end_src
 
+Make things pretty with icons
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons-completion
+    :ensure t
+    :init
+    (nerd-icons-completion-mode +1))
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package marginalia
     :ensure t
