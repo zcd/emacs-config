@@ -480,11 +480,6 @@ Tone down on the vertical scroll.
 ** Completion frameworks
 
 #+begin_src emacs-lisp
-  (use-package swiper
-    :ensure t
-    :after ivy
-    :bind (("C-s" . swiper)))
-
   (use-package avy
     :ensure t
     :bind ("M-j" . avy-goto-char-timer))
