@@ -514,6 +514,13 @@ VERTical Interactive COmpletion
     (vertico-mode +1))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode +1))
+#+end_src
+
 ** Shell
 
 #+begin_src emacs-lisp
