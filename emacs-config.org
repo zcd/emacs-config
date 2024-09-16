@@ -51,7 +51,7 @@ Modern support for line numbers.
 Initial screen.
 
 #+begin_src emacs-lisp
-  (setq-default inhibit-startup-screen nil
+  (setq-default inhibit-startup-screen t
                 initial-scratch-message "")
 #+end_src
 
