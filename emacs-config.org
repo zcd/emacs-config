@@ -417,7 +417,7 @@ horizontal splitting on large monitors as it behaves funny with the
     (which-key-mode +1))
 #+end_src
 
-** Navigation
+** File navigation
 
 Turn on =recentf-mode= (recent file mode) to quickly find recently
 edited files.
@@ -454,6 +454,8 @@ For the mode-line, just show the project name.
     (compilation-save-buffers-predicate #'projectile-current-project-buffer-p))
 #+end_src
 
+** Buffer navigation
+
 - [[https://github.com/abo-abo/ace-window][ace-window]] for window navigation
 - =transpose-frame=
 - [[https://www.emacswiki.org/emacs/buffer-move.el][buffer-move]]
@@ -477,13 +479,15 @@ Tone down on the vertical scroll.
   (setq-default auto-window-vscroll nil)
 #+end_src
 
-** Completion frameworks
+=avy= jumps to matching text
 
 #+begin_src emacs-lisp
   (use-package avy
     :ensure t
     :bind ("M-j" . avy-goto-char-timer))
 #+end_src
+
+** Completion frameworks
 
 #+begin_src emacs-lisp
   (use-package deft
