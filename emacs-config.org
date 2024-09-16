@@ -487,7 +487,7 @@ Tone down on the vertical scroll.
     :bind ("M-j" . avy-goto-char-timer))
 #+end_src
 
-** Completion frameworks
+** File search
 
 #+begin_src emacs-lisp
   (use-package deft
@@ -498,6 +498,20 @@ Tone down on the vertical scroll.
     (deft-directory me/org-home-dir)
     (deft-extensions '("org"))
     (deft-recursive t))
+#+end_src
+
+** Minibuffer
+
+VERTical Interactive COmpletion
+
+#+begin_src emacs-lisp
+  (use-package vertigo
+    :ensure t
+    :custom
+    (vertigo-cycle t)
+    (vertigo-resize nil)
+    :init
+    (vertico-mode +1))
 #+end_src
 
 ** Shell
