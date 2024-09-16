@@ -479,26 +479,7 @@ Tone down on the vertical scroll.
 
 ** Completion frameworks
 
-[[https://github.com/abo-abo/swiper][Ivy]] along with swiper for search and counsel for augmented
-functionality.
-
 #+begin_src emacs-lisp
-  (use-package ivy
-    :ensure t
-    :delight
-    :bind (("C-c r" . #'ivy-resume)
-	   ("C-x B" . #'ivy-switch-buffer-other-window))
-    :custom
-    (ivy-count-format "(%d/%d) ")
-    (ivy-use-virtual-buffers t)
-    :config
-    (ivy-mode +1))
-
-  (use-package counsel
-    :ensure t
-    :after ivy
-    :bind (("M-x" . counsel-M-x)))
-
   (use-package swiper
     :ensure t
     :after ivy
@@ -507,16 +488,6 @@ functionality.
   (use-package avy
     :ensure t
     :bind ("M-j" . avy-goto-char-timer))
-#+end_src
-
-=ivy-prescient= for smarter history-based suggestions
-
-#+begin_src emacs-lisp
-  (use-package ivy-prescient
-    :ensure t
-    :after ivy
-    :config
-    (ivy-prescient-mode +1))
 #+end_src
 
 #+begin_src emacs-lisp
