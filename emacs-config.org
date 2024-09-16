@@ -51,7 +51,7 @@ Modern support for line numbers.
 Initial screen.
 
 #+begin_src emacs-lisp
-  (setq-default inhibit-startup-screen t
+  (setq-default inhibit-startup-screen nil
                 initial-scratch-message "")
 #+end_src
 
@@ -505,11 +505,11 @@ Tone down on the vertical scroll.
 VERTical Interactive COmpletion
 
 #+begin_src emacs-lisp
-  (use-package vertigo
+  (use-package vertico
     :ensure t
     :custom
-    (vertigo-cycle t)
-    (vertigo-resize nil)
+    (vertico-cycle t)
+    (vertico-resize nil)
     :init
     (vertico-mode +1))
 #+end_src
@@ -547,7 +547,17 @@ Use consult for completion
 	   ("M-s M-m" . consult-line-multi)
 	   ;; Switch to another buffer, or bookmarked file, or recently
 	   ;; opened file.
-	   ("M-s M-b" . consult-buffer)))
+	   ("C-x b" . consult-buffer)))
+#+end_src
+
+Add on orderless to make searching a little easier
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
 ** Shell
