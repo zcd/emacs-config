@@ -547,7 +547,8 @@ Use consult for completion
 	   ("M-s M-m" . consult-line-multi)
 	   ;; Switch to another buffer, or bookmarked file, or recently
 	   ;; opened file.
-	   ("C-x b" . consult-buffer)))
+	   ("C-x b" . consult-buffer)
+	   ("C-x B" . consult-buffer-other-window)))
 #+end_src
 
 Add on orderless to make searching a little easier
