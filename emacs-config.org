@@ -391,6 +391,14 @@ horizontal splitting on large monitors as it behaves funny with the
   (setq-default split-window-preferred-function #'me/split-window-sensibly)
 #+end_src
 
+Olivetti centers the content in the buffer and often helps with
+readability.
+
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :ensure t)
+#+end_src
+
 ** Help bindings
 
 =helpful= for a richer version of =describe-=
@@ -1103,6 +1111,16 @@ In order to enable this, insert the following snippet in a
                                          (current-time-string)))
                 (gac-debounce-interval . 3600)  ; wait 1h between auto-commits
                 (eval git-auto-commit-mode +1))))
+#+end_src
+
+* Web browser
+#+begin_src emacs-lisp
+  (use-package eww
+    :ensure nil
+    :config
+    (add-hook 'eww-mode-hook #'me/--disable-line-numbers)
+    :hook
+    (eww-mode . olivetti-mode))
 #+end_src
 
 * Final Overrides
