@@ -856,6 +856,14 @@ of org-roam.
 						    me/org-home-dir))))
 #+end_src
 
+** Cosmetics
+
+#+begin_src emacs-lisp
+  (use-package org-modern
+    :hook
+    ((org-mode . org-modern-mode)
+     (org-agenda-finalize . org-modern-agenda)))
+#+end_src
 * Languages
 
 ** Lisp(s)
