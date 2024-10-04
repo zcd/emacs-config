@@ -478,19 +478,6 @@ Tone down on the vertical scroll.
     :bind ("M-j" . avy-goto-char-timer))
 #+end_src
 
-** File search
-
-#+begin_src emacs-lisp
-  (use-package deft
-    :ensure t
-    :after org
-    :bind ("C-c o f" . deft)
-    :custom
-    (deft-directory me/org-home-dir)
-    (deft-extensions '("org"))
-    (deft-recursive t))
-#+end_src
-
 ** Minibuffer
 
 VERTical Interactive COmpletion
