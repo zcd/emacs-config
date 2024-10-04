@@ -294,31 +294,14 @@ Define helper to refresh all open file buffers from disk (stolen from
 
 ** Theming
 
-- During the day, use [[https://github.com/john2x/plan9-theme.el][plan9]].
-- When it gets dark, use [[https://github.com/bbatsov/zenburn-emacs][zenburn]].
+Use the high-contrast =modus= themes. This works well in various
+lighting environments without maxing out the monitor brightness.
 
 #+begin_src emacs-lisp
-  (use-package zenburn-theme
-    :ensure t)
-
-  (use-package plan9-theme
-    :ensure t)
-
-  (use-package circadian
+  (use-package modus-themes
     :ensure t
-    :custom
-    (circadian-themes '(("8:00" . plan9)
-                        ("19:30" . zenburn)))
-    :config
-    (circadian-setup))
-#+end_src
-
-Alternatively these commands will quick clear-and-enable the day/night
-themes.
-
-#+begin_src emacs-lisp :tangle no
-  (circadian-enable-theme 'plan9)
-  (circadian-enable-theme 'zenburn)
+    :config 
+    (modus-themes-select 'modus-operandi-tinted))
 #+end_src
 
 ** ibuffer
