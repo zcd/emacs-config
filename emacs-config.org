@@ -144,6 +144,8 @@ docked mode.
       (set-face-attribute 'default nil :family 
 			  (face-attribute 'default :family)
 			  :height (* 10 arg))))
+
+  (me/resize-fonts 14)
 #+end_src
 
 Pretty icons
@@ -514,15 +516,15 @@ Use consult for completion
   (use-package consult
     :ensure t
     :bind (;; A recursive grep
-	   ("M-s M-g" . consult-grep)
+	   ("C-c g" . consult-grep)
 	   ;; Search for files names recursively
-	   ("M-s M-f" . consult-find)
+	   ("C-c f" . consult-find)
 	   ;; Search through the outline (headings) of the file
-	   ("M-s M-o" . consult-outline)
+	   ("C-c O" . consult-outline)
 	   ;; Search the current buffer
-	   ("M-s M-l" . consult-line)
+	   ("C-c s" . consult-line)
 	   ;; Search the current or other buffers
-	   ("M-s M-m" . consult-line-multi)
+	   ("C-c S" . consult-line-multi)
 	   ;; Switch to another buffer, or bookmarked file, or recently
 	   ;; opened file.
 	   ("C-x b" . consult-buffer)
