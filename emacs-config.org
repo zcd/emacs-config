@@ -133,9 +133,9 @@ docked mode.
   Provide a numeric <C-u> prefix corresponding to the font size"
     (interactive "p")
     (when (or (and (< 10 arg) (< arg 20))
-	      (yes-or-no-p (format "Are you sure you want to resize font to %d?" 
+	      (yes-or-no-p (format "Are you sure you want to resize font to %d?"
 				   arg)))
-      (set-face-attribute 'default nil :family 
+      (set-face-attribute 'default nil :family
 			  (face-attribute 'default :family)
 			  :height (* 10 arg))))
 
@@ -305,7 +305,7 @@ lighting environments without maxing out the monitor brightness.
 #+begin_src emacs-lisp
   (use-package modus-themes
     :ensure t
-    :config 
+    :config
     (modus-themes-select 'modus-operandi-tinted))
 #+end_src
 
@@ -402,7 +402,7 @@ readability.
            ("C-h F" . helpful-function)
            ("C-h C" . helpful-command)))
 #+end_src
-   
+
 =which-key= to suggest keybind followups.
 
 #+begin_src emacs-lisp
@@ -603,7 +603,7 @@ Tool by [[https://github.com/karthinks][karthinks]]
   (use-package gptel
     :ensure t
     :custom
-    (gptel-api-key 
+    (gptel-api-key
      (lambda ()
        (auth-source-pass-get 'secret "openai-key")))
     (gptel-default-mode 'org-mode))
@@ -688,7 +688,7 @@ Some =org=-related utilities.
        'org-babel-load-languages
        (cons (cons language t)
              org-babel-load-languages))))
-  
+
   (me/org-babel-load-missing-lang 'shell)
 #+end_src
 
@@ -770,7 +770,7 @@ Define a helper for personal worklogging
     :after (org-roam)
     :demand t
     :bind (("C-c n n" . org-roam-dailies-goto-next-note)
-	   ("C-c n p" . org-roam-dailies-goto-previous-note)	 
+	   ("C-c n p" . org-roam-dailies-goto-previous-note)
 	   ("C-c n d" . org-roam-dailies-capture-today))
     :config
     (add-to-list 'org-agenda-files
@@ -959,7 +959,7 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
   (dolist (mode-hook me/lisp-mode-hooks)
     (add-hook mode-hook #'turn-on-eldoc-mode))
 #+end_src
- 
+
 ** Haskell
 
 #+begin_src emacs-lisp
