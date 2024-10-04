@@ -832,7 +832,7 @@ of org-roam.
     ((org-mode . org-modern-mode)
      (org-agenda-finalize . org-modern-agenda)))
 #+end_src
-* Languages
+* Programming Languages
 
 ** Lisp(s)
 
@@ -1026,6 +1026,13 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 		("C-c <tab>" . gofmt))
     :config
     (add-hook 'before-save-hook #'gofmt-before-save t))
+#+end_src
+
+** Protobuf
+
+#+begin_src emacs-lisp
+  (use-package protobuf-mode
+    :ensure t)
 #+end_src
 
 ** eglot
