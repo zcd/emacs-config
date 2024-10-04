@@ -114,7 +114,7 @@ This requires a line =allow-loopback-pinentry= in =~/.gnupg/gpg-agent.conf=.
     (with-selected-frame frame
       (when window-system
 	(let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
-				 "Monaco-12")
+				 "Monaco-14")
 				((find-font (font-spec :name "DejaVu Sans Mono"))
 				 "DejaVu Sans Mono-14")
 				((find-font (font-spec :name "Courier"))
