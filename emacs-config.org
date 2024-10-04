@@ -846,8 +846,7 @@ of org-roam.
 #+begin_src emacs-lisp
   (use-package clojure-mode
     :ensure t
-    :hook ((clojure-mode . paredit-mode)
-           (clojure-mode . rainbow-delimiters-mode)
+    :hook ((clojure-mode . rainbow-delimiters-mode)
            (clojure-mode . subword-mode)))
 #+end_src
 
@@ -857,7 +856,6 @@ Try to make =cider= look and feel like a regular clojure buffer.
   (use-package cider
     :ensure t
     :hook ((cider-repl-mode . eldoc-mode)
-           (cider-repl-mode . paredit-mode)
            (cider-repl-mode . rainbow-delimiters-mode)))
 
   (use-package cider-repl
@@ -917,17 +915,6 @@ analogue of =C-x e=.
     (setq slime-default-lisp 'sbcl))
 #+end_src
 
-Slime's own =M-s= binding conflicts with paredit's own
-=paredit-splice-sexp= binding.
-
-#+begin_src emacs-lisp
-  (use-package slime-repl
-    :ensure nil
-    :after (slime)
-    :config
-    (unbind-key "M-s" slime-repl-mode-map))
-#+end_src
-
 Support =org-babel= for common lisp.
 
 #+begin_src emacs-lisp
@@ -935,8 +922,6 @@ Support =org-babel= for common lisp.
 #+end_src
 
 *** Lisp-wide settings
-
-Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated cheat sheet]].
 
 #+begin_src emacs-lisp
   (defvar me/lisp-mode-hooks
@@ -947,13 +932,6 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
       lisp-interaction-mode-hook
       scheme-mode-hook
       slime-editing-mode-hook))
-
-  (use-package paredit
-    :ensure t
-    :delight
-    :config
-    (dolist (mode-hook me/lisp-mode-hooks)
-      (add-hook mode-hook #'paredit-mode)))
 
   (use-package rainbow-delimiters
     :ensure t
