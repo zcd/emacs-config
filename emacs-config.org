@@ -237,6 +237,14 @@ Enable line numbers in programming modes.
     ((prog-mode . display-line-numbers-mode)))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :ensure t
+    :hook (prog-mode text-mode markdown-mode)
+    :config
+    (require 'smartparens-config))
+#+end_src
+
 End sentences from a single period, so that =M-e= behaves appropriately
 in my writing.
 
