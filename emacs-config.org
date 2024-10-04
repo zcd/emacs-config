@@ -14,7 +14,7 @@ This config file.
 
 #+begin_src emacs-lisp
   (defvar me/emacs-config-file (expand-file-name "emacs-config.org"
-                                                 user-emacs-directory))
+						 user-emacs-directory))
 
   (defun me/emacs-config ()
     "Open my emacs config"
@@ -200,6 +200,15 @@ runs a scheduled job periodically.
 #+end_src
 
 ** Text Editing
+
+Enable line numbers in programming modes.
+
+#+begin_src emacs-lisp
+  (use-package prog-mode
+    :ensure nil
+    :hook
+    ((prog-mode . display-line-numbers-mode)))
+#+end_src
 
 End sentences from a single period, so that =M-e= behaves appropriately
 in my writing.
@@ -621,8 +630,6 @@ Tool by [[https://github.com/karthinks][karthinks]]
 	   ("C-c o o" . (lambda ()
 			  (interactive)
 			  (find-file org-default-notes-file))))
-    :hook
-    ((org-mode . display-line-numbers-mode))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
 							     me/org-home-dir)))
@@ -944,9 +951,6 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :config
     (dolist (mode-hook me/lisp-mode-hooks)
       (add-hook mode-hook #'rainbow-delimiters-mode)))
-
-  (dolist (mode-hook me/lisp-mode-hooks)
-    (add-hook mode-hook #'display-line-numbers-mode))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/ElDoc][eldoc-mode]] shows documentation in minibuffer on the fly.
@@ -977,8 +981,7 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 #+begin_src emacs-lisp
   (use-package c++-mode
     :ensure nil
-    :hook ((c++-mode . display-line-numbers-mode)
-	   (c++-mode . subword-mode)))
+    :hook ((c++-mode . subword-mode)))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1006,7 +1009,6 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :bind (:map rust-mode-map
 		("C-c <tab>" . rust-format-buffer))
     :hook ((rust-mode . cargo-minor-mode)
-	   (rust-mode . display-line-numbers-mode)
 	   (rust-mode . subword-mode)))
 
   (use-package cargo
@@ -1023,9 +1025,7 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :bind (:map go-mode-map
 		("C-c <tab>" . gofmt))
     :config
-    (add-hook 'before-save-hook #'gofmt-before-save t)
-    :hook
-    ((go-mode . display-line-numbers-mode)))
+    (add-hook 'before-save-hook #'gofmt-before-save t))
 #+end_src
 
 ** eglot
