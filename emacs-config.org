@@ -33,12 +33,6 @@ Shorten y/n prompt.
   (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
-Modern support for line numbers.
-
-#+begin_src emacs-lisp
-  (global-display-line-numbers-mode)
-#+end_src
-   
 #+begin_src emacs-lisp
   (when window-system
     (blink-cursor-mode 0)
@@ -570,23 +564,10 @@ Embark for flexibly acting on consult results
 
 ** Shell
 
-#+begin_src emacs-lisp
-  (defun me/--disable-line-numbers ()
-    (display-line-numbers-mode 0))
-
-  (use-package shell
-    :config (add-hook 'shell-mode-hook
-		      #'me/--disable-line-numbers))
-#+end_src
-
 For =eshell=
 
 #+begin_src emacs-lisp
-  (use-package eshell
-    :config (add-hook 'eshell-mode-hook
-		      #'me/--disable-line-numbers))
-
-  (defun eshell/clear ()
+  (defun me/eshell-clear ()
     "Clear the eshell buffer."
     (interactive)
     (let ((inhibit-read-only t))
@@ -640,6 +621,8 @@ Tool by [[https://github.com/karthinks][karthinks]]
 	   ("C-c o o" . (lambda ()
 			  (interactive)
 			  (find-file org-default-notes-file))))
+    :hook
+    ((org-mode . display-line-numbers-mode))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
 							     me/org-home-dir)))
@@ -678,8 +661,6 @@ View $\LaTeX$.
   (use-package pdf-tools
     :ensure t
     :init (setq-default pdf-view-display-size 'fit-page)
-    :config (add-hook 'pdf-view-mode-hook
-		      #'me/--disable-line-numbers)
     :mode ("\\.pdf\\'" . pdf-view-mode))
 #+end_src
 
@@ -949,20 +930,23 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
       lisp-interaction-mode-hook
       scheme-mode-hook
       slime-editing-mode-hook))
-  
+
   (use-package paredit
     :ensure t
     :delight
     :config
     (dolist (mode-hook me/lisp-mode-hooks)
       (add-hook mode-hook #'paredit-mode)))
-  
+
   (use-package rainbow-delimiters
     :ensure t
     :delight
     :config
     (dolist (mode-hook me/lisp-mode-hooks)
       (add-hook mode-hook #'rainbow-delimiters-mode)))
+
+  (dolist (mode-hook me/lisp-mode-hooks)
+    (add-hook mode-hook #'display-line-numbers-mode))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/ElDoc][eldoc-mode]] shows documentation in minibuffer on the fly.
@@ -978,11 +962,11 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
   (use-package haskell-mode
     :ensure t
     :bind (:map haskell-mode-map
-                ("C-c C-l" . haskell-process-load-or-reload)
-                ("C-`" . haskell-interactive-bring)
-                ("C-c C-t" . haskell-process-do-type)
-                ("C-c C-i" . haskell-process-do-info)))
-  
+		("C-c C-l" . haskell-process-load-or-reload)
+		("C-`" . haskell-interactive-bring)
+		("C-c C-t" . haskell-process-do-type)
+		("C-c C-i" . haskell-process-do-info)))
+
   (use-package hindent
     :ensure t
     :hook haskell-mode)
@@ -993,7 +977,8 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
 #+begin_src emacs-lisp
   (use-package c++-mode
     :ensure nil
-    :hook ((c++-mode . subword-mode)))
+    :hook ((c++-mode . display-line-numbers-mode)
+	   (c++-mode . subword-mode)))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1019,9 +1004,10 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :ensure t
     :commands rust-format-buffer
     :bind (:map rust-mode-map
-                ("C-c <tab>" . rust-format-buffer))
+		("C-c <tab>" . rust-format-buffer))
     :hook ((rust-mode . cargo-minor-mode)
-           (rust-mode . subword-mode)))
+	   (rust-mode . display-line-numbers-mode)
+	   (rust-mode . subword-mode)))
 
   (use-package cargo
     :after rust-mode
@@ -1035,9 +1021,11 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :ensure t
     :commands gofmt
     :bind (:map go-mode-map
-                ("C-c <tab>" . gofmt))
+		("C-c <tab>" . gofmt))
     :config
-    (add-hook 'before-save-hook #'gofmt-before-save t))
+    (add-hook 'before-save-hook #'gofmt-before-save t)
+    :hook
+    ((go-mode . display-line-numbers-mode)))
 #+end_src
 
 ** eglot
@@ -1089,8 +1077,6 @@ In order to enable this, insert the following snippet in a
 #+begin_src emacs-lisp
   (use-package eww
     :ensure nil
-    :config
-    (add-hook 'eww-mode-hook #'me/--disable-line-numbers)
     :hook
     (eww-mode . olivetti-mode))
 #+end_src
