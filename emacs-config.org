@@ -305,8 +305,11 @@ lighting environments without maxing out the monitor brightness.
 #+begin_src emacs-lisp
   (use-package modus-themes
     :ensure t
+    :custom
+    (modus-themes-to-toggle '(modus-operandi-tinted
+			      modus-vivendi-tinted))
     :config
-    (modus-themes-select 'modus-operandi-tinted))
+    (modus-themes-toggle))
 #+end_src
 
 ** ibuffer
