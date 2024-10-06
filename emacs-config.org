@@ -999,11 +999,11 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
   (use-package clang-format
     :ensure t
     :bind (:map c++-mode-map
-           ("C-c TAB" . clang-format-buffer)
-           :map c-mode-map
-           ("C-c TAB" . clang-format-buffer))
-    :config
-    (setq clang-format-style "Google"))
+	   ("C-c TAB" . clang-format-buffer)
+	   :map c-mode-map
+	   ("C-c TAB" . clang-format-buffer))
+    :custom
+    (clang-format-style "Google"))
 #+end_src
 
 ** Rust
