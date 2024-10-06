@@ -624,15 +624,18 @@ Tool by [[https://github.com/karthinks][karthinks]]
 - Hide /italics/, *bolds*, and =code= markers.
 
 #+begin_src emacs-lisp
+  (defun me/--find-org-default-notes-file ()
+    "Open my 'org-default-notes-file"
+    (interactive)
+    (find-file org-default-notes-file))
+
   (use-package org
     :ensure t
     :bind (("C-c o l" . org-store-link)
 	   ("C-c o a" . org-agenda)
 	   ("C-c o c" . org-capture)
 	   ("C-c o b" . org-switchb)
-	   ("C-c o o" . (lambda ()
-			  (interactive)
-			  (find-file org-default-notes-file))))
+	   ("C-c o o" . me/--find-org-default-notes-file))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
 							     me/org-home-dir)))
