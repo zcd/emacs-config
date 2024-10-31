@@ -704,6 +704,10 @@ View $\LaTeX$.
     :ensure t
     :init (setq-default pdf-view-display-size 'fit-page)
     :mode ("\\.pdf\\'" . pdf-view-mode))
+
+  (use-package saveplace-pdf-view
+    :ensure t
+    :after (pdf-tools saveplace))
 #+end_src
 
 The following is needed to run the above properly.
