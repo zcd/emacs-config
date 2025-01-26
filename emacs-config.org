@@ -611,7 +611,11 @@ Tool by [[https://github.com/karthinks][karthinks]]
     (gptel-api-key
      (lambda ()
        (auth-source-pass-get 'secret "openai-key")))
-    (gptel-default-mode 'org-mode))
+    (gptel-default-mode 'org-mode)
+    :config
+    (progn
+      (add-hook 'gptel-post-stream-hook #'gptel-auto-scroll)
+      (add-hook 'gptel-post-stream-response-functions #'gptel-end-of-response)))
 #+end_src
 
 * =org-mode= settings
