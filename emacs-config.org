@@ -605,6 +605,8 @@ Tool by [[https://github.com/karthinks][karthinks]]
 #+begin_src emacs-lisp
   (use-package gptel
     :ensure t
+    :hook
+    ((gptel-mode . olivetti-mode))
     :custom
     (gptel-api-key
      (lambda ()
