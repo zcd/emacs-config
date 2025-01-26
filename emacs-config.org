@@ -241,6 +241,11 @@ Enable line numbers in programming modes.
   (use-package smartparens
     :ensure t
     :hook (prog-mode text-mode markdown-mode)
+    :bind (:map smartparens-mode-map
+		("A-<left>" . sp-backward-slurp-sexp)
+		("A-<right>" . sp-forward-slurp-sexp)
+		("C-A-<left>" . sp-backward-barf-sexp)
+		("C-A-<right>" . sp-forward-barf-sexp))
     :config
     (require 'smartparens-config))
 #+end_src
