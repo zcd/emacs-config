@@ -739,16 +739,12 @@ With =org-mode= v9.2, template expansion is now done via
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-        `(("t" "Todo" entry (file+headline
-                             org-default-notes-file "Tasks")
-           "* TODO %?\n  %i\n  %a")
-          ("r" "Reading" entry (file+headline
-                                org-default-notes-file "Article bank")
-           "* TODO Article: %?\n  %U")
-          ("j" "Journal" entry (file+datetree
-                                ,(file-truename (expand-file-name "journal.org"
-                                                                  me/org-home-dir)))
-           "* %?\nEntered on %U\n  %i\n  %a")))
+	`(("t" "Todo" entry (file+headline
+			     org-default-notes-file "Tasks")
+	   "* TODO %?\n  %i\n  %a")
+	  ("r" "Reading" entry (file+headline
+				org-default-notes-file "Article bank")
+	   "* TODO Article: %?\n  %U")))
 #+end_src
 
 I write a lot of =emacs-lisp= via =org-mode=
