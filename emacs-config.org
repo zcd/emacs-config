@@ -802,11 +802,7 @@ Define a helper for personal worklogging
     :demand t
     :bind (("C-c n n" . org-roam-dailies-goto-next-note)
 	   ("C-c n p" . org-roam-dailies-goto-previous-note)
-	   ("C-c n d" . org-roam-dailies-capture-today))
-    :config
-    (add-to-list 'org-agenda-files
-		 (expand-file-name org-roam-dailies-directory
-				   org-roam-directory)))
+	   ("C-c n d" . org-roam-dailies-capture-today)))
 #+end_src
 
 Also include a UI
