@@ -238,16 +238,9 @@ Enable line numbers in programming modes.
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package smartparens
+  (use-package lispy
     :ensure t
-    :hook (prog-mode text-mode markdown-mode)
-    :bind (:map smartparens-mode-map
-		("A-<left>" . sp-backward-slurp-sexp)
-		("A-<right>" . sp-forward-slurp-sexp)
-		("C-A-<left>" . sp-backward-barf-sexp)
-		("C-A-<right>" . sp-forward-barf-sexp))
-    :config
-    (require 'smartparens-config))
+    :diminish)
 #+end_src
 
 End sentences from a single period, so that =M-e= behaves appropriately
