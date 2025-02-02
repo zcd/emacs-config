@@ -536,17 +536,6 @@ For =eshell=
 
 ** GPT
 
-Shell by [[https://github.com/xenodium][xenodium]]
-
-#+begin_src emacs-lisp
-  (use-package chatgpt-shell
-    :ensure t
-    :custom
-    ((chatgpt-shell-openai-key
-      (lambda ()
-	(auth-source-pass-get 'secret "openai-key")))))
-#+end_src
-
 Tool by [[https://github.com/karthinks][karthinks]]
 
 #+begin_src emacs-lisp
