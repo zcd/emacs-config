@@ -720,7 +720,7 @@ Define a helper for personal worklogging
     (newline))
 #+end_src
 
-** =org-roam= experimentation
+** =org-roam=
 
 #+begin_src emacs-lisp
   (use-package org-roam
@@ -805,6 +805,7 @@ of org-roam.
     ((org-mode . org-modern-mode)
      (org-agenda-finalize . org-modern-agenda)))
 #+end_src
+
 * Programming Languages
 
 ** Lisp(s)
