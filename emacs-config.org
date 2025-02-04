@@ -4,12 +4,6 @@
 
 * Base Settings
 
-** General
-
-#+begin_src emacs-lisp
-  (set-default-coding-systems 'utf-8)
-#+end_src
-
 This config file.
 
 #+begin_src emacs-lisp
@@ -27,32 +21,16 @@ This config file.
     (org-babel-load-file me/emacs-config-file))
 #+end_src
 
+** Runtime
+
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+end_src
+
 Increase max depth. This seems to make some errors go away.
 
 #+begin_src emacs-lisp
   (setq max-lisp-eval-depth (ash 1 14))
-#+end_src
-
-Shorten y/n prompt.
-
-#+begin_src emacs-lisp
-  (fset 'yes-or-no-p 'y-or-n-p)
-#+end_src
-
-#+begin_src emacs-lisp
-  (when window-system
-    (blink-cursor-mode 0)
-    (scroll-bar-mode 0)
-    (tool-bar-mode 0)
-    (setq-default frame-title-format "%b (%f)"))
-  (menu-bar-mode 0)
-#+end_src
-
-Initial screen.
-
-#+begin_src emacs-lisp
-  (setq-default inhibit-startup-screen t
-                initial-scratch-message "")
 #+end_src
 
 =garbage-collect= on focus-out, Emacs /should/ feel snappier.
@@ -100,6 +78,27 @@ This requires a line =allow-loopback-pinentry= in =~/.gnupg/gpg-agent.conf=.
   else
     echo 'allow-loopback-pinentry' >> ~/.gnupg/gpg-agent.conf && gpgconf --reload gpg-agent
   fi
+#+end_src
+
+** Runtime Files
+
+Other config files (and their outputs) should live in a quieter place.
+
+#+begin_src emacs-lisp
+  (use-package no-littering
+    :ensure t)
+#+end_src
+
+=midnight-mode= settings for automatic buffer cleanup. Midnight mode
+runs a scheduled job periodically.
+
+#+begin_src emacs-lisp
+  (use-package midnight
+    :config
+    (dolist (buffer-re '("\\*helpful.*\\*"
+                         "magit.*"))
+      (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
+    (midnight-mode +1))
 #+end_src
 
 ** Fonts
@@ -162,25 +161,43 @@ This is used for =doom-modeline= icons
   (nerd-icons-install-fonts)
 #+end_src
 
-** Runtime Files
-
-Other config files (and their outputs) should live in a quieter place.
+** Visuals
 
 #+begin_src emacs-lisp
-  (use-package no-littering
-    :ensure t)
+  (when window-system
+    (blink-cursor-mode 0)
+    (scroll-bar-mode 0)
+    (tool-bar-mode 0)
+    (setq-default frame-title-format "%b (%f)"))
+  (menu-bar-mode 0)
 #+end_src
 
-=midnight-mode= settings for automatic buffer cleanup. Midnight mode
-runs a scheduled job periodically.
+Initial screen.
 
 #+begin_src emacs-lisp
-  (use-package midnight
+  (setq-default inhibit-startup-screen t
+                initial-scratch-message "")
+#+end_src
+
+Use the high-contrast =modus= themes. This works well in various
+lighting environments without maxing out the monitor brightness.
+
+#+begin_src emacs-lisp
+  (use-package modus-themes
+    :ensure t
+    :custom
+    (modus-themes-to-toggle '(modus-operandi-tinted
+			      modus-vivendi-tinted))
     :config
-    (dolist (buffer-re '("\\*helpful.*\\*"
-                         "magit.*"))
-      (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
-    (midnight-mode +1))
+    (modus-themes-toggle))
+#+end_src
+
+Olivetti centers the content in the buffer and often helps with
+readability.
+
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :ensure t)
 #+end_src
 
 ** Mode line
@@ -305,29 +322,6 @@ Define helper to refresh all open file buffers from disk (stolen from
     (message "Finished reverting buffers containing unmodified files."))
 #+end_src
 
-** Visuals
-
-Use the high-contrast =modus= themes. This works well in various
-lighting environments without maxing out the monitor brightness.
-
-#+begin_src emacs-lisp
-  (use-package modus-themes
-    :ensure t
-    :custom
-    (modus-themes-to-toggle '(modus-operandi-tinted
-			      modus-vivendi-tinted))
-    :config
-    (modus-themes-toggle))
-#+end_src
-
-Olivetti centers the content in the buffer and often helps with
-readability.
-
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :ensure t)
-#+end_src
-
 ** ibuffer
 
 #+begin_src emacs-lisp
@@ -442,6 +436,12 @@ Tone down on the vertical scroll.
 #+end_src
 
 ** Minibuffer
+
+Shorten y/n prompt.
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
 
 VERTical Interactive COmpletion
 
