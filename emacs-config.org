@@ -389,17 +389,19 @@ edited files.
 auto-recognized, but this can be manually enabled via touching a
 =.projectile= file.
 
-For the mode-line, just show the project name.
+=compilation-save-buffers-predicate= is used to prompt buffer saving
+before compiling. Currently configured to check buffers that are part
+of the same project as the compilation.
 
 #+begin_src emacs-lisp
   (use-package projectile
     :ensure t
-    :init (projectile-mode +1)
-    :delight '(:eval (concat " " (projectile-project-name)))
     :bind-keymap ("C-c p" . projectile-command-map)
     :custom
     (compilation-buffer-name-function #'projectile-compilation-buffer-name)
-    (compilation-save-buffers-predicate #'projectile-current-project-buffer-p))
+    (compilation-save-buffers-predicate #'projectile-current-project-buffer-p)
+    :init
+    (projectile-mode +1))
 #+end_src
 
 ** Buffer navigation
