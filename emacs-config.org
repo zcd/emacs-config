@@ -299,7 +299,7 @@ Define helper to refresh all open file buffers from disk (stolen from
     (message "Finished reverting buffers containing unmodified files."))
 #+end_src
 
-** Theming
+** Visuals
 
 Use the high-contrast =modus= themes. This works well in various
 lighting environments without maxing out the monitor brightness.
@@ -312,6 +312,14 @@ lighting environments without maxing out the monitor brightness.
 			      modus-vivendi-tinted))
     :config
     (modus-themes-toggle))
+#+end_src
+
+Olivetti centers the content in the buffer and often helps with
+readability.
+
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :ensure t)
 #+end_src
 
 ** ibuffer
@@ -327,16 +335,6 @@ lighting environments without maxing out the monitor brightness.
     :after (ibuffer)
     :config
     (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root))
-#+end_src
-
-** Buffer sizing
-
-Olivetti centers the content in the buffer and often helps with
-readability.
-
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :ensure t)
 #+end_src
 
 ** Help bindings
