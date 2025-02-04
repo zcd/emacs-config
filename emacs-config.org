@@ -27,6 +27,12 @@ This config file.
     (org-babel-load-file me/emacs-config-file))
 #+end_src
 
+Increase max depth. This seems to make some errors go away.
+
+#+begin_src emacs-lisp
+  (setq max-lisp-eval-depth (ash 1 14))
+#+end_src
+
 Shorten y/n prompt.
 
 #+begin_src emacs-lisp
