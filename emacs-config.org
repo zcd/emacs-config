@@ -879,6 +879,13 @@ Try to make =cider= look and feel like a regular clojure buffer.
     (cider-show-error-buffer t))
 #+end_src
 
+Package browsing on clojars
+
+#+begin_src emacs-lisp
+  (use-package clojars
+    :ensure t)
+#+end_src
+
 **** =org-mode= based literate programming.
 
 Along with an easy-template for literate clojure notebooks.
