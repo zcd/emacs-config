@@ -98,7 +98,7 @@ runs a scheduled job periodically.
     :ensure nil
     :config
     (dolist (buffer-re '("\\*helpful.*\\*"
-			 "magit.*"))
+                         "magit.*"))
       (add-to-list 'clean-buffer-list-kill-regexps buffer-re))
     (midnight-mode +1))
 #+end_src
@@ -114,19 +114,19 @@ runs a scheduled job periodically.
   (defun me/set-frame-font (frame)
     (with-selected-frame frame
       (when window-system
-	(let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
-				 "Monaco-14")
-				((find-font (font-spec :name "DejaVu Sans Mono"))
-				 "DejaVu Sans Mono-14")
-				((find-font (font-spec :name "Courier"))
-				 "Courier-14")))
-	      (variable-font (cond ((find-font (font-spec :name "Helvetica"))
-				    "Helvetica-15")
-				   ((find-font (font-spec :name "Arial"))
-				    "Arial-15"))))
-	  (set-face-attribute 'default frame :font fixed-font)
-	  (set-face-attribute 'fixed-pitch frame :font fixed-font)
-	  (set-face-attribute 'variable-pitch frame :font variable-font)))))
+        (let ((fixed-font (cond ((find-font (font-spec :name "Monaco"))
+                                 "Monaco-14")
+                                ((find-font (font-spec :name "DejaVu Sans Mono"))
+                                 "DejaVu Sans Mono-14")
+                                ((find-font (font-spec :name "Courier"))
+                                 "Courier-14")))
+              (variable-font (cond ((find-font (font-spec :name "Helvetica"))
+                                    "Helvetica-15")
+                                   ((find-font (font-spec :name "Arial"))
+                                    "Arial-15"))))
+          (set-face-attribute 'default frame :font fixed-font)
+          (set-face-attribute 'fixed-pitch frame :font fixed-font)
+          (set-face-attribute 'variable-pitch frame :font variable-font)))))
 
   (add-hook 'after-make-frame-functions #'me/set-frame-font)
 #+end_src
@@ -140,11 +140,11 @@ docked mode.
   Provide a numeric <C-u> prefix corresponding to the font size"
     (interactive "p")
     (when (or (and (< 10 arg) (< arg 20))
-	      (yes-or-no-p (format "Are you sure you want to resize font to %d?"
-				   arg)))
+              (yes-or-no-p (format "Are you sure you want to resize font to %d?"
+                                   arg)))
       (set-face-attribute 'default nil :family
-			  (face-attribute 'default :family)
-			  :height (* 10 arg))))
+                          (face-attribute 'default :family)
+                          :height (* 10 arg))))
 
   (me/resize-fonts 14)
 #+end_src
@@ -189,7 +189,7 @@ lighting environments without maxing out the monitor brightness.
     :ensure t
     :custom
     (modus-themes-to-toggle '(modus-operandi-tinted
-			      modus-vivendi-tinted))
+                              modus-vivendi-tinted))
     :config
     (modus-themes-toggle))
 #+end_src
@@ -255,9 +255,9 @@ Kill ring/clipboard settings.
 
 #+begin_src emacs-lisp
   (setq-default select-enable-clipboard t
-		select-enable-primary t
-		save-interprogram-paste-before-kill t
-		mouse-yank-at-point t)
+                select-enable-primary t
+                save-interprogram-paste-before-kill t
+                mouse-yank-at-point t)
 
   (defun me/kill-ring--clear ()
     "Clear the current kill-ring"
@@ -376,7 +376,7 @@ edited files.
     :ensure nil
     :config
     (dolist (exclude-dir `(,no-littering-var-directory
-			   ,no-littering-etc-directory))
+                           ,no-littering-etc-directory))
       (add-to-list 'recentf-exclude exclude-dir))
     (recentf-mode +1)
     (run-at-time nil (* 60 60) #'recentf-save-list)  ; save every hour
@@ -384,7 +384,7 @@ edited files.
     (recentf-auto-cleanup "00:00am")
     (recentf-max-menu-items 40)
     (recentf-save-file (expand-file-name ".recentf"
-					 no-littering-var-directory)))
+                                         no-littering-var-directory)))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/Projectile][Projectile]] for guessing project boundaries. =git= repos are
@@ -481,19 +481,19 @@ Use consult for completion
   (use-package consult
     :ensure t
     :bind (;; A recursive grep
-	   ("C-c g" . consult-grep)
-	   ;; Search for files names recursively
-	   ("C-c f" . consult-find)
-	   ;; Search through the outline (headings) of the file
-	   ("C-c O" . consult-outline)
-	   ;; Search the current buffer
-	   ("C-c s" . consult-line)
-	   ;; Search the current or other buffers
-	   ("C-c S" . consult-line-multi)
-	   ;; Switch to another buffer, or bookmarked file, or recently
-	   ;; opened file.
-	   ("C-x b" . consult-buffer)
-	   ("C-x B" . consult-buffer-other-window)))
+           ("C-c g" . consult-grep)
+           ;; Search for files names recursively
+           ("C-c f" . consult-find)
+           ;; Search through the outline (headings) of the file
+           ("C-c O" . consult-outline)
+           ;; Search the current buffer
+           ("C-c s" . consult-line)
+           ;; Search the current or other buffers
+           ("C-c S" . consult-line-multi)
+           ;; Switch to another buffer, or bookmarked file, or recently
+           ;; opened file.
+           ("C-x b" . consult-buffer)
+           ("C-x B" . consult-buffer-other-window)))
 #+end_src
 
 Add on orderless to make searching a little easier
@@ -523,9 +523,9 @@ Embark for flexibly acting on consult results
     :config
     ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
-		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		   nil
-		   (window-parameters (mode-line-format . none)))))
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none)))))
 
   (use-package embark-consult
     :ensure t ; only need to install it, embark loads it after consult if found
@@ -578,7 +578,7 @@ Tool by [[https://github.com/karthinks][karthinks]]
     (gptel-make-ollama "Ollama"
       :host "localhost:11434"
       :models '(deepseek-r1:14b
-		qwen2.5:32b)))
+                qwen2.5:32b)))
 #+end_src
 
 * =org-mode= settings
@@ -601,12 +601,12 @@ Tool by [[https://github.com/karthinks][karthinks]]
     (defun me/revert-org-default-notes-file ()
       (interactive)
       (dolist (buf (buffer-list))
-	(with-current-buffer buf
-	  (when (and buffer-file-name
-		     (string= buffer-file-name org-default-notes-file))
-	    (progn
-	      (revert-buffer t t t)
-	      (message "Reverted %s" buf))))))
+        (with-current-buffer buf
+          (when (and buffer-file-name
+                     (string= buffer-file-name org-default-notes-file))
+            (progn
+              (revert-buffer t t t)
+              (message "Reverted %s" buf))))))
 #+end_src
 
 I dislike the behavior of popping open a new emacs frame on
@@ -618,7 +618,7 @@ split below.
   (defun me/org-capture-inframe ()
     (interactive)
     (let ((split-width-threshold nil)
-	  (split-height-threshold 0))
+          (split-height-threshold 0))
        (org-capture)))
 #+end_src
 
@@ -629,14 +629,14 @@ split below.
   (use-package org
     :ensure t
     :bind (("C-c o l" . org-store-link)
-	   ("C-c o a" . org-agenda)
-	   ("C-c o c" . me/org-capture-inframe)
-	   ("C-c o b" . org-switchb)
-	   ("C-c o o" . me/--find-org-default-notes-file)
-	   ("C-c o r" . me/revert-org-default-notes-file))
+           ("C-c o a" . org-agenda)
+           ("C-c o c" . me/org-capture-inframe)
+           ("C-c o b" . org-switchb)
+           ("C-c o o" . me/--find-org-default-notes-file)
+           ("C-c o r" . me/revert-org-default-notes-file))
     :custom
     (org-default-notes-file (file-truename (expand-file-name "inbox.org"
-							     me/org-home-dir)))
+                                                             me/org-home-dir)))
     (org-agenda-files (list me/org-home-dir))
     (org-agenda-todo-ignore-scheduled 'future)
     (org-hide-emphasis-markers t)
@@ -646,7 +646,7 @@ split below.
     :ensure nil
     :custom
     (org-id-locations-file (expand-file-name ".org-id-locations"
-					     no-littering-var-directory)))
+                                             no-littering-var-directory)))
 #+end_src
 
 =org-pomodoro= integration with =org-clock-in= is a nifty feature for time
@@ -712,12 +712,12 @@ With =org-mode= v9.2, template expansion is now done via
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-	`(("t" "Todo" entry (file+headline
-			     org-default-notes-file "Tasks")
-	   "* TODO %?\n  %i\n  %a")
-	  ("r" "Reading" entry (file+headline
-				org-default-notes-file "Article bank")
-	   "* TODO Article: %?\n  %U")))
+        `(("t" "Todo" entry (file+headline
+                             org-default-notes-file "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("r" "Reading" entry (file+headline
+                                org-default-notes-file "Article bank")
+           "* TODO Article: %?\n  %U")))
 #+end_src
 
 I write a lot of =emacs-lisp= via =org-mode=
@@ -736,12 +736,12 @@ Define a helper for personal worklogging
   header."
     (interactive "P")
     (let ((nesting (or current-prefix-arg
-		       2)))
+                       2)))
       (progn
-	(dotimes (_ nesting)
-	  (insert "*"))
-	(when (> nesting 0)
-	    (insert " "))))
+        (dotimes (_ nesting)
+          (insert "*"))
+        (when (> nesting 0)
+            (insert " "))))
     (let ((current-prefix-arg '(16)))
       (call-interactively #'org-time-stamp-inactive))
     (newline))
@@ -758,14 +758,14 @@ Define a helper for personal worklogging
     (setq org-roam-v2-ack t)
     :custom
     (org-roam-directory (file-truename (expand-file-name "roam"
-							 me/org-home-dir)))
+                                                         me/org-home-dir)))
     :bind (("C-c n l" . org-roam-buffer-toggle)
-	   ("C-c n f" . org-roam-node-find)
-	   ("C-c n g" . org-roam-graph)
-	   ("C-c n i" . org-roam-node-insert)
-	   ("C-c n c" . org-roam-capture)
-	   ("C-c n t" . org-roam-tag-add)
-	   ("C-c n T" . org-roam-tag-remove))
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture)
+           ("C-c n t" . org-roam-tag-add)
+           ("C-c n T" . org-roam-tag-remove))
     :config
     (org-roam-db-autosync-mode))
 
@@ -774,8 +774,8 @@ Define a helper for personal worklogging
     :after (org-roam)
     :demand t
     :bind (("C-c n n" . org-roam-dailies-goto-next-note)
-	   ("C-c n p" . org-roam-dailies-goto-previous-note)
-	   ("C-c n d" . org-roam-dailies-capture-today)))
+           ("C-c n p" . org-roam-dailies-goto-previous-note)
+           ("C-c n d" . org-roam-dailies-capture-today)))
 #+end_src
 
 Also include a UI
@@ -797,13 +797,13 @@ of org-roam.
     :after (org bibtex-completion)
     :custom
     (org-cite-global-bibliography (list (expand-file-name "references.bib"
-							  me/org-home-dir))))
+                                                          me/org-home-dir))))
 
   (use-package citar
     :ensure t
     :custom
     (org-cite-global-bibliography (list (expand-file-name "references.bib"
-							  me/org-home-dir)))
+                                                          me/org-home-dir)))
     (citar-bibliography org-cite-global-bibliography)
     (org-cite-activate-processor 'citar)
     (org-cite-follow-processor 'citar)
@@ -822,7 +822,7 @@ of org-roam.
     :after ivy-bibtex
     :custom
     (ebib-preload-bib-files (list (expand-file-name "references.bib"
-						    me/org-home-dir))))
+                                                    me/org-home-dir))))
 #+end_src
 
 ** Cosmetics
@@ -969,10 +969,10 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
   (use-package haskell-mode
     :ensure t
     :bind (:map haskell-mode-map
-		("C-c C-l" . haskell-process-load-or-reload)
-		("C-`" . haskell-interactive-bring)
-		("C-c C-t" . haskell-process-do-type)
-		("C-c C-i" . haskell-process-do-info)))
+                ("C-c C-l" . haskell-process-load-or-reload)
+                ("C-`" . haskell-interactive-bring)
+                ("C-c C-t" . haskell-process-do-type)
+                ("C-c C-i" . haskell-process-do-info)))
 
   (use-package hindent
     :ensure t
@@ -996,9 +996,9 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
   (use-package clang-format
     :ensure t
     :bind (:map c++-mode-map
-	   ("C-c TAB" . clang-format-buffer)
-	   :map c-mode-map
-	   ("C-c TAB" . clang-format-buffer))
+           ("C-c TAB" . clang-format-buffer)
+           :map c-mode-map
+           ("C-c TAB" . clang-format-buffer))
     :custom
     (clang-format-style "Google"))
 #+end_src
@@ -1010,9 +1010,9 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :ensure t
     :commands rust-format-buffer
     :bind (:map rust-mode-map
-		("C-c <tab>" . rust-format-buffer))
+                ("C-c <tab>" . rust-format-buffer))
     :hook ((rust-mode . cargo-minor-mode)
-	   (rust-mode . subword-mode)))
+           (rust-mode . subword-mode)))
 
   (use-package cargo
     :ensure t
@@ -1026,7 +1026,7 @@ Paredit is some good stuff. [[http://danmidwood.com/content/2014/11/21/animated-
     :ensure t
     :commands gofmt
     :bind (:map go-mode-map
-		("C-c <tab>" . gofmt))
+                ("C-c <tab>" . gofmt))
     :config
     (add-hook 'before-save-hook #'gofmt-before-save t))
 #+end_src
@@ -1104,7 +1104,7 @@ loaded, if existing.
     :ensure nil
     :custom
     (custom-file (expand-file-name "custom.el"
-				   no-littering-etc-directory))
+                                   no-littering-etc-directory))
     :config
     (when (file-exists-p custom-file)
       (load custom-file)))
