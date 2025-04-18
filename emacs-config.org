@@ -237,12 +237,6 @@ Enable line numbers in programming modes.
     ((prog-mode . display-line-numbers-mode)))
 #+end_src
 
-#+begin_src emacs-lisp
-  (use-package lispy
-    :ensure t
-    :diminish)
-#+end_src
-
 End sentences from a single period, so that =M-e= behaves appropriately
 in my writing.
 
@@ -852,8 +846,9 @@ of org-roam.
 #+begin_src emacs-lisp
   (use-package clojure-mode
     :ensure t
-    :hook ((clojure-mode . rainbow-delimiters-mode)
-           (clojure-mode . subword-mode)))
+    :hook ((clojure-mode . lispy-mode)
+	   (clojure-mode . rainbow-delimiters-mode)
+	   (clojure-mode . subword-mode)))
 #+end_src
 
 Try to make =cider= look and feel like a regular clojure buffer.
@@ -862,18 +857,19 @@ Try to make =cider= look and feel like a regular clojure buffer.
   (use-package cider
     :ensure t
     :hook ((cider-repl-mode . eldoc-mode)
-           (cider-repl-mode . rainbow-delimiters-mode)))
+	   (cider-repl-mode . lispy-mode)
+	   (cider-repl-mode . rainbow-delimiters-mode)))
 
   (use-package cider-repl
     :ensure nil
     :custom
-    (cider-repl-pop-to-buffer-on-connect t))
+    (cider-repl-pop-to-buffer-on-connect nil))
 
   (use-package cider-repl-history
     :ensure nil
     :custom
     (cider-repl-history-file (expand-file-name "cider-history"
-                                               no-littering-var-directory))
+					       no-littering-var-directory))
     (cider-repl-wrap-history t))
 
   (use-package cider-eval
@@ -952,6 +948,17 @@ Support =org-babel= for common lisp.
 #+begin_src emacs-lisp
   (dolist (mode-hook me/lisp-mode-hooks)
     (add-hook mode-hook #'turn-on-eldoc-mode))
+#+end_src
+
+Not 100% for lisp, but very lisp-oriented
+
+#+begin_src emacs-lisp
+  (use-package lispy
+    :ensure t
+    :diminish
+    :config
+    (dolist (mode-hook me/lisp-mode-hooks)
+      (add-hook mode-hook #'lispy-mode)))
 #+end_src
 
 ** Haskell
