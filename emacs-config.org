@@ -1026,6 +1026,33 @@ Not 100% for lisp, but very lisp-oriented
     :after rust-mode)
 #+end_src
 
+** Scala
+
+#+begin_src emacs-lisp
+  ;; https://scalameta.org/metals/docs/editors/emacs/#getting-started-with-worksheets
+
+  (use-package scala-mode
+    :ensure t
+    :hook  (scala-mode . lsp)
+    :interpreter ("scala" . scala-mode))
+
+  (use-package lsp-metals
+    :ensure t)
+
+  (use-package sbt-mode
+    :ensure t
+    :commands sbt-start sbt-command
+    :config
+    ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+    ;; allows using SPACE when in the minibuffer
+    (substitute-key-definition
+     'minibuffer-complete-word
+     'self-insert-command
+     minibuffer-local-completion-map)
+    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+    (setq sbt:program-options '("-Dsbt.supershell=false")))
+#+end_src
+
 ** Golang
 
 #+begin_src emacs-lisp
