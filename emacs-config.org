@@ -277,8 +277,7 @@ Jump back in a file where last located.
     :config
     (save-place-mode +1)
     :custom
-    (save-place-file (expand-file-name "places"
-                                       no-littering-var-directory)))
+    (save-place-file (no-littering-expand-var-file-name "places")))
 #+end_src
 
 + Backups under the standard =/var/= directory defined by =no-littering=
@@ -290,8 +289,7 @@ Jump back in a file where last located.
     :ensure nil
     :custom
     (backup-directory-alist
-     `(("." . ,(expand-file-name "backups/"
-                                 no-littering-var-directory))))
+     `(("." . ,(no-littering-expand-var-file-name "backups/"))))
     (auto-save-default nil)
     (create-lockfiles nil))
 #+end_src
@@ -393,15 +391,14 @@ edited files.
     :ensure nil
     :config
     (dolist (exclude-dir `(,no-littering-var-directory
-                           ,no-littering-etc-directory))
+			   ,no-littering-etc-directory))
       (add-to-list 'recentf-exclude exclude-dir))
     (recentf-mode +1)
     (run-at-time nil (* 60 60) #'recentf-save-list)  ; save every hour
     :custom
     (recentf-auto-cleanup "00:00am")
     (recentf-max-menu-items 40)
-    (recentf-save-file (expand-file-name ".recentf"
-                                         no-littering-var-directory)))
+    (recentf-save-file (no-littering-expand-var-file-name ".recentf")))
 #+end_src
 
 [[https://www.emacswiki.org/emacs/Projectile][Projectile]] for guessing project boundaries. =git= repos are
@@ -671,8 +668,7 @@ split below.
   (use-package org-id
     :ensure nil
     :custom
-    (org-id-locations-file (expand-file-name ".org-id-locations"
-					     no-littering-var-directory)))
+    (org-id-locations-file (no-littering-expand-var-file-name ".org-id-locations")))
 
   (org-defkey org-mode-map
 	      (kbd "C-c C-TAB") #'org-global-cycle)
@@ -897,8 +893,7 @@ Try to make =cider= look and feel like a regular clojure buffer.
   (use-package cider-repl-history
     :ensure nil
     :custom
-    (cider-repl-history-file (expand-file-name "cider-history"
-					       no-littering-var-directory))
+    (cider-repl-history-file (no-littering-expand-var-file-name "cider-history"))
     (cider-repl-wrap-history t))
 
   (use-package cider-eval
@@ -1157,8 +1152,7 @@ loaded, if existing.
   (use-package cus-edit
     :ensure nil
     :custom
-    (custom-file (expand-file-name "custom.el"
-                                   no-littering-etc-directory))
+    (custom-file (no-littering-expand-etc-file-name "custom.el"))
     :config
     (when (file-exists-p custom-file)
       (load custom-file)))
