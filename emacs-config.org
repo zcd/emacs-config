@@ -281,9 +281,9 @@ Jump back in a file where last located.
                                        no-littering-var-directory)))
 #+end_src
 
-- Backups under the standard =/var/= directory defined by =no-littering=
-- Disable lockfiles
-- Disable autosave
++ Backups under the standard =/var/= directory defined by =no-littering=
++ Disable lockfiles
++ Disable autosave
 
 #+begin_src emacs-lisp
   (use-package files
@@ -323,6 +323,23 @@ Define helper to refresh all open file buffers from disk (stolen from
               (message "Killed non-existing/unreadable file buffer: %s" filename))))))
     (message "Finished reverting buffers containing unmodified files."))
 #+end_src
+
+Setup YASnippet
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :hook ((text-mode
+          prog-mode
+          conf-mode
+          snippet-mode) . yas-minor-mode-on)
+  :custom
+  (yas-snippet-dirs (list (no-littering-expand-etc-file-name "yasnippet/snippets/"))))
+
+
+(use-package yasnippet-snippets
+  :ensure t)
+  #+end_src
 
 ** ibuffer
 
@@ -515,7 +532,7 @@ Embark for flexibly acting on consult results
     (("C-." . embark-act)         ;; pick some comfortable binding
      ("C-;" . embark-dwim)        ;; good alternative: M-.
      ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
+    
     :init
     ;; Optionally replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command)
@@ -523,9 +540,9 @@ Embark for flexibly acting on consult results
     :config
     ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
-                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                   nil
-                   (window-parameters (mode-line-format . none)))))
+		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		   nil
+		   (window-parameters (mode-line-format . none)))))
 
   (use-package embark-consult
     :ensure t ; only need to install it, embark loads it after consult if found
