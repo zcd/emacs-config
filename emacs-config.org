@@ -783,14 +783,13 @@ Define a helper for personal worklogging
     (setq org-roam-v2-ack t)
     :custom
     (org-roam-directory (file-truename (expand-file-name "roam"
-                                                         me/org-home-dir)))
+							 me/org-home-dir)))
     :bind (("C-c n l" . org-roam-buffer-toggle)
-           ("C-c n f" . org-roam-node-find)
-           ("C-c n g" . org-roam-graph)
-           ("C-c n i" . org-roam-node-insert)
-           ("C-c n c" . org-roam-capture)
-           ("C-c n t" . org-roam-tag-add)
-           ("C-c n T" . org-roam-tag-remove))
+	   ("C-c n f" . org-roam-node-find)
+	   ("C-c n i" . org-roam-node-insert)
+	   ("C-c n c" . org-roam-capture)
+	   ("C-c n t" . org-roam-tag-add)
+	   ("C-c n T" . org-roam-tag-remove))
     :config
     (org-roam-db-autosync-mode))
 
@@ -799,8 +798,8 @@ Define a helper for personal worklogging
     :after (org-roam)
     :demand t
     :bind (("C-c n n" . org-roam-dailies-goto-next-note)
-           ("C-c n p" . org-roam-dailies-goto-previous-note)
-           ("C-c n d" . org-roam-dailies-capture-today)))
+	   ("C-c n p" . org-roam-dailies-goto-previous-note)
+	   ("C-c n d" . org-roam-dailies-capture-today)))
 #+end_src
 
 Also include a UI
