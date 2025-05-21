@@ -663,7 +663,12 @@ split below.
     (org-agenda-files (list me/org-home-dir))
     (org-agenda-todo-ignore-scheduled 'future)
     (org-hide-emphasis-markers t)
-    (org-refile-targets '((org-agenda-files :maxlevel . 3))))
+    (org-refile-targets `((,(expand-file-name "tasks.org"
+					      me/org-home-dir)
+			   :maxlevel . 2)
+			  (,(expand-file-name "projects.org"
+					      me/org-home-dir)
+			   :maxlevel . 2))))
 
   (use-package org-id
     :ensure nil
@@ -716,11 +721,11 @@ Some =org=-related utilities.
   (defun me/org-babel-load-missing-lang (language)
     "Add the given language symbol only if it hasn't been included."
     (unless (assq language
-                  org-babel-load-languages)
+		  org-babel-load-languages)
       (org-babel-do-load-languages
        'org-babel-load-languages
        (cons (cons language t)
-             org-babel-load-languages))))
+	     org-babel-load-languages))))
 
   (me/org-babel-load-missing-lang 'shell)
 #+end_src
@@ -737,12 +742,10 @@ With =org-mode= v9.2, template expansion is now done via
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-        `(("t" "Todo" entry (file+headline
-                             org-default-notes-file "Tasks")
-           "* TODO %?\n  %i\n  %a")
-          ("r" "Reading" entry (file+headline
-                                org-default-notes-file "Article bank")
-           "* TODO Article: %?\n  %U")))
+	`(("t" "Todo" entry (file org-default-notes-file)
+	   "* TODO %?\n  %i\n  %a")
+	  ("r" "Reading" entry (file org-default-notes-file)
+	   "* TODO Article: %?\n  %U")))
 #+end_src
 
 I write a lot of =emacs-lisp= via =org-mode=
