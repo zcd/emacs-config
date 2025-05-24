@@ -677,6 +677,9 @@ split below.
 
   (org-defkey org-mode-map
 	      (kbd "C-c C-TAB") #'org-global-cycle)
+
+  (use-package org-habit
+    :ensure nil)
 #+end_src
 
 =org-pomodoro= integration with =org-clock-in= is a nifty feature for time
