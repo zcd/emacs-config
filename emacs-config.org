@@ -686,10 +686,67 @@ split below.
 management.
 
 #+begin_src emacs-lisp
+  (cl-defstruct me/audio-config
+    player
+    default-args)
+
+  (defvar me/org-pomodoro-audio-config
+    (make-me/audio-config :player "/opt/homebrew/bin/ffplay"
+			  :default-args '("-autoexit"
+					  "-nodisp"
+					  "-loglevel quiet"
+					  "-af volume=0.5")))
+
+  (defun me/audio-config-resolve-args (config &optional more)
+    (string-join (append (me/audio-config-default-args config) more)
+		 " "))
+
   (use-package org-pomodoro
     :ensure t
     :custom
-    (org-pomodoro-clock-break t))
+    (org-pomodoro-clock-break t)
+    (org-pomodoro-audio-player
+     (me/audio-config-player me/org-pomodoro-audio-config))
+    ;; Pod-042 "Complete"
+    (org-pomodoro-finished-sound (expand-file-name "blobs/vo_plffff_0_003_113.ogg"
+						   user-emacs-directory))
+    (org-pomodoro-finished-sound-p t)
+    (org-pomodoro-finished-sound-args
+     (me/audio-config-args me/org-pomodoro-audio-config))
+    ;; Pod-042 "Proposal: Rest ..."
+    (org-pomodoro-long-break-sound (expand-file-name "blobs/vo_plffff_0_002_847.ogg"
+						     user-emacs-directory))
+    (org-pomodoro-long-break-sound-p t)
+    (org-pomodoro-long-break-sound-args
+     (me/audio-config-args me/org-pomodoro-audio-config))
+    ;; Pod-042 "Proposal: Rest"
+    (org-pomodoro-short-break-sound (expand-file-name "blobs/vo_plffff_0_002_847.ogg"
+						      user-emacs-directory))
+    (org-pomodoro-short-break-sound-p t)
+    (org-pomodoro-short-break-sound-args
+     (me/audio-config-args me/org-pomodoro-audio-config
+			   '("-t 1.8")))
+    ;; Pod-042 "Commencing"
+    (org-pomodoro-start-sound (expand-file-name "blobs/vo_plffff_0_003_112.ogg"
+						user-emacs-directory))
+    (org-pomodoro-start-sound-p t)
+    (org-pomodoro-start-sound-args
+     (me/audio-config-args me/org-pomodoro-audio-config))
+
+    :config
+    (progn
+      (unless (file-exists-p org-pomodoro-audio-player)
+	(lwarn 'org-pomodoro
+	       :warning
+	       "Could not find audio player: %s" org-pomodoro-audio-player))
+      (dolist (fpath `(,org-pomodoro-finished-sound
+		       ,org-pomodoro-long-break-sound
+		       ,org-pomodoro-short-break-sound
+		       ,org-pomodoro-start-sound))
+	(unless (file-exists-p fpath)
+	  (lwarn 'org-pomodoro
+		 :warning
+		 "Could not find audio file %s: %s" (sym f) f)))))
 #+end_src
 
 Exporting as HTML.
