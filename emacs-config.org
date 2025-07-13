@@ -668,7 +668,9 @@ split below.
 			   :maxlevel . 2)
 			  (,(expand-file-name "projects.org"
 					      me/org-home-dir)
-			   :maxlevel . 2))))
+			   :maxlevel . 2)))
+    (org-archive-location (format "%s::datetree/*" (expand-file-name "archive.org"
+								     me/org-home-dir))))
 
   (use-package org-id
     :ensure nil
